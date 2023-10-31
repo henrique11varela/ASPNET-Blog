@@ -2,18 +2,20 @@
 using ASPNET_Blog.Models;
 using Microsoft.Data.Sqlite;
 
+public interface IModelTemplate {}
+
 /** How to implement
 *
 * - Fill private string _TableName with the name of the DB table
 * - Implement a "filler" method that uses a reader to fill the props
 * - Do not implement an "Id" since it is already implemented
 */
-public class ModelTemplate
+public class ModelTemplate : IModelTemplate
 {
-    private static string _TableName = "";
+    public virtual string _TableName {get; set;} = "";
     public int Id { get; set; }
 
-    static ModelTemplate filler(SqliteDataReader reader)
+    public virtual IModelTemplate filler(SqliteDataReader reader)
     {
         return new ModelTemplate();
     }
@@ -21,7 +23,7 @@ public class ModelTemplate
     /** Stores data into the DataBase
     * 
     */
-    public void save()
+    public virtual void save()
     {
         string command = "";
         if (this.Id > 0)
@@ -40,16 +42,16 @@ public class ModelTemplate
     /** Returns the item that has the Id "id"
     * 
     */
-    public ModelTemplate find(int id)
+    public IModelTemplate find(int id)
     {
-        string query = $"SELECT * FROM {_TableName} WHERE id = {id}";
+        string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
         return AccessDB(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<ModelTemplate> all()
+    public List<IModelTemplate> all()
     {
         string query = $"SELECT * FROM {_TableName}";
         return AccessDB(query);
@@ -58,7 +60,7 @@ public class ModelTemplate
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<ModelTemplate> where(string conditions)
+    public List<IModelTemplate> where(string conditions)
     {
         string query = $"SELECT * FROM {_TableName} WHERE {conditions}";
         return AccessDB(query);
@@ -76,9 +78,9 @@ public class ModelTemplate
     /** Manages the connection to the DataBase
     * 
     */
-    public static List<ModelTemplate> AccessDB(string commandString)
+    public List<IModelTemplate> AccessDB(string commandString)
     {
-        List<ModelTemplate> itemList = new List<ModelTemplate>();
+        List<IModelTemplate> itemList = new List<IModelTemplate>();
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.SetBasePath(Directory.GetCurrentDirectory());
         var config = builder.AddJsonFile(@"appsettings.json").Build();
