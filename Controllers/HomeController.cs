@@ -15,6 +15,11 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        User user = new User();
+        user.Name = "TestName";
+        user.Email = "TestEmail";
+        user.Password = "TestPassword";
+        user.save();
         return View();
     }
 

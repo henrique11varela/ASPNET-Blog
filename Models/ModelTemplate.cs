@@ -8,81 +8,81 @@ using Microsoft.Data.Sqlite;
 * - Implement a "filler" method that uses a reader to fill the props
 * - Do not implement an "Id" since it is already implemented
 */
-class ModelTemplate
+public class ModelTemplate
 {
-    private string _TableName = "";
-    private List<string> _TableColumns = new List<string> { };
-    public int Id = 0;
-    ModelTemplate filler(SqliteDataReader reader){
+    private static string _TableName = "";
+    public int Id { get; set; }
+
+    static ModelTemplate filler(SqliteDataReader reader)
+    {
         return new ModelTemplate();
     }
 
     /** Stores data into the DataBase
     * 
     */
-    void save()
+    public void save()
     {
         string command = "";
         if (this.Id > 0)
         {
-            command += $"UPDATE {_TableName} WHERE id = {this.Id} (";
-
+            //command += $"UPDATE {_TableName} SET ";
+            //command += this.Name != "" ? $"name = '{this.Name}'" : "";
+            //command += $"WHERE id = {this.Id}";
         }
         else
         {
-            command += $"INSERT INTO {_TableName} (";
+            //command += $"INSERT INTO {_TableName} (name, email, password) VALUES ({this.Name},{this.Email},{this.Password});";
         }
-        for (int i = 0; i < _TableColumns.Count; i++)
-        {
-            command += i == 0 ? "" : ", ";
-            command += _TableColumns[i];
-        }
-        command += ") VALUES ();";
+        AccessDB(command);
     }
 
     /** Returns the item that has the Id "id"
     * 
     */
-    ModelTemplate find(int id)
+    public ModelTemplate find(int id)
     {
         string query = $"SELECT * FROM {_TableName} WHERE id = {id}";
-        return AccessDB(query, filler)[0];
+        return AccessDB(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    List<ModelTemplate> all()
+    public List<ModelTemplate> all()
     {
         string query = $"SELECT * FROM {_TableName}";
-        return AccessDB(query, filler);
+        return AccessDB(query);
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    List<ModelTemplate> where(string conditions)
+    public List<ModelTemplate> where(string conditions)
     {
         string query = $"SELECT * FROM {_TableName} WHERE {conditions}";
-        return AccessDB(query, filler);
+        return AccessDB(query);
     }
 
     /** Deletes the item that has the Id "id"
     * 
     */
-    void delete(int id)
+    public void delete(int id)
     {
         string query = $"DELETE FROM {_TableName} WHERE id = {id}";
-        AccessDB(query, filler);
+        AccessDB(query);
     }
 
     /** Manages the connection to the DataBase
     * 
     */
-    List<ModelTemplate> AccessDB(string commandString, Func<SqliteDataReader, ModelTemplate> fillerFunction)
+    public static List<ModelTemplate> AccessDB(string commandString)
     {
         List<ModelTemplate> itemList = new List<ModelTemplate>();
-        using (SqliteConnection connection = new SqliteConnection())
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+        var config = builder.AddJsonFile(@"appsettings.json").Build();
+        using (SqliteConnection connection = new SqliteConnection(config.GetConnectionString("ASPNETBlogContext")))
         {
             using (var command = connection.CreateCommand())
             {
@@ -94,9 +94,9 @@ class ModelTemplate
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (System.Exception)
+                    catch (System.Exception ex)
                     {
-                        throw new Exception("Query could not run!");
+                        throw new Exception("Query could not run!: " + ex);
                     }
                     return itemList;
                 }
@@ -107,7 +107,7 @@ class ModelTemplate
                         while (reader.Read())
                         {
                             itemList.Add(
-                                fillerFunction(reader)
+                                filler(reader)
                             );
                         }
                     }
