@@ -16,8 +16,8 @@ namespace ASPNET_Blog.Models
             {
                 Id = reader.GetInt32(0),
                 Name = reader.GetString(1),
-                Email = reader.GetString(2),
-                Password = reader.GetString(3)
+                Password = reader.GetString(2),
+                Email = reader.GetString(3)
             };
         }
 
