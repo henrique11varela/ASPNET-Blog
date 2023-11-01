@@ -19,9 +19,9 @@ public class HomeController : Controller
         // user.Name = "TestName2";
         // user.Email = "TestEmail2";
         // user.Password = "TestPassword2";
-        user = (User)user.find(3);
-        user.Name = "AWOOGA2";
-        user.save();
+        // user = (User)user.Ifind(3);
+        // user.Name = "AWOOGA2";
+        // user.save();
         
         return View();
     }

@@ -42,10 +42,12 @@ public class ModelTemplate : IModelTemplate
     /** Returns the item that has the Id "id"
     * 
     */
-    public IModelTemplate find(int id)
+    public IModelTemplate Ifind(int id)
     {
-        string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
-        return AccessDB(query)[0];
+        return (User)new User().Ifind(id);
+        
+        // string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
+        // return AccessDB(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
