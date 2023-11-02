@@ -10,7 +10,7 @@ namespace ASPNET_Blog.Models
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
 
-        public override User filler(SqliteDataReader reader)
+        public override User Filler(SqliteDataReader reader)
         {
             return new User
             {
@@ -21,7 +21,7 @@ namespace ASPNET_Blog.Models
             };
         }
 
-        public override void save()
+        public override void Save()
         {
             string command = "";
             if (this.Id > 0)
@@ -29,19 +29,14 @@ namespace ASPNET_Blog.Models
                 command += $"UPDATE {_TableName} SET ";
                 command += $"username = '{this.Name}', ";
                 command += $"email = '{this.Email}', ";
-                command += $"password = '{this.Password},' ";
+                command += $"password = '{this.Password}', ";
                 command += $"WHERE id = {this.Id}";
             }
             else
             {
                 command += $"INSERT INTO {_TableName} (username, email, password) VALUES ('{this.Name}','{this.Email}','{this.Password}');";
             }
-            AccessDB(command);
-        }
-
-        public User Find(int id)
-        {
-            return (User)new User().Ifind(id);
+            AccessDb(command);
         }
     }
 }

@@ -15,7 +15,7 @@ public class ModelTemplate : IModelTemplate
     public virtual string _TableName {get; set;} = "";
     public int Id { get; set; }
 
-    public virtual IModelTemplate filler(SqliteDataReader reader)
+    public virtual IModelTemplate Filler(SqliteDataReader reader)
     {
         return new ModelTemplate();
     }
@@ -23,7 +23,7 @@ public class ModelTemplate : IModelTemplate
     /** Stores data into the DataBase
     * 
     */
-    public virtual void save()
+    public virtual void Save()
     {
         string command = "";
         if (this.Id > 0)
@@ -36,51 +36,51 @@ public class ModelTemplate : IModelTemplate
         {
             //command += $"INSERT INTO {_TableName} (name, email, password) VALUES ({this.Name},{this.Email},{this.Password});";
         }
-        AccessDB(command);
+        AccessDb(command);
     }
 
     /** Returns the item that has the Id "id"
     * 
     */
-    public IModelTemplate Ifind(int id)
+    public dynamic Find(int id)
     {
          string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
-         return AccessDB(query)[0];
+         return AccessDb(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<IModelTemplate> all()
+    public List<dynamic> All()
     {
         string query = $"SELECT * FROM {_TableName}";
-        return AccessDB(query);
+        return AccessDb(query);
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<IModelTemplate> where(string conditions)
+    public List<dynamic> Where(string conditions)
     {
         string query = $"SELECT * FROM {_TableName} WHERE {conditions}";
-        return AccessDB(query);
+        return AccessDb(query);
     }
 
     /** Deletes the item that has the Id "id"
     * 
     */
-    public void delete(int id)
+    public void Delete(int id)
     {
         string query = $"DELETE FROM {_TableName} WHERE id = {id}";
-        AccessDB(query);
+        AccessDb(query);
     }
 
     /** Manages the connection to the DataBase
     * 
     */
-    public List<IModelTemplate> AccessDB(string commandString)
+    public List<dynamic> AccessDb(string commandString)
     {
-        List<IModelTemplate> itemList = new List<IModelTemplate>();
+        List<dynamic> itemList = new List<dynamic>();
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.SetBasePath(Directory.GetCurrentDirectory());
         var config = builder.AddJsonFile(@"appsettings.json").Build();
@@ -109,7 +109,7 @@ public class ModelTemplate : IModelTemplate
                         while (reader.Read())
                         {
                             itemList.Add(
-                                filler(reader)
+                                Filler(reader)
                             );
                         }
                     }

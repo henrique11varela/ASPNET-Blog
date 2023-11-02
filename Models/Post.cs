@@ -12,7 +12,7 @@ namespace ASPNET_Blog.Models
         public int AverageRating { get; set; } = 0;
     
     
-        public override Post filler(SqliteDataReader reader)
+        public override Post Filler(SqliteDataReader reader)
         {
             return new Post
             {
@@ -26,7 +26,7 @@ namespace ASPNET_Blog.Models
             };
         }
 
-        public override void save()
+        public override void Save()
         {
             string command = "";
             if (this.Id > 0)
@@ -46,12 +46,7 @@ namespace ASPNET_Blog.Models
                     $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, average_rating) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{this.CreatedAt}','{this.UpdatedAt}','{this.AverageRating}');";
             }
 
-            AccessDB(command);
-        }
-
-        public Post Find (int id)
-        {
-            return (Post)new Post().Ifind(id);
+            AccessDb(command);
         }
     }
 }

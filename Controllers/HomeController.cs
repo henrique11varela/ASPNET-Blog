@@ -16,13 +16,16 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         User user = new User();
+        
         // user.Name = "TestName2";
         // user.Email = "TestEmail2";
         // user.Password = "TestPassword2";
-        // user = (User)user.Ifind(3);
-        // user.Name = "AWOOGA2";
-        // user.save();
         
+        // user = user.Find(1);
+        // user.Name = "AWOOGA2";
+        
+        // user.save();
+
         return View();
     }
 
