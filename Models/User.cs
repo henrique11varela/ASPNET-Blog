@@ -38,6 +38,10 @@ namespace ASPNET_Blog.Models
             }
             AccessDB(command);
         }
-    }
 
+        public User Find(int id)
+        {
+            return (User)new User().Ifind(id);
+        }
+    }
 }

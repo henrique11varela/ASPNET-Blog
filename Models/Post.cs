@@ -48,5 +48,10 @@ namespace ASPNET_Blog.Models
 
             AccessDB(command);
         }
+
+        public Post Find (int id)
+        {
+            return (Post)new Post().Ifind(id);
+        }
     }
 }

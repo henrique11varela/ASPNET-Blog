@@ -44,10 +44,8 @@ public class ModelTemplate : IModelTemplate
     */
     public IModelTemplate Ifind(int id)
     {
-        return (User)new User().Ifind(id);
-        
-        // string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
-        // return AccessDB(query)[0];
+         string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
+         return AccessDB(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
