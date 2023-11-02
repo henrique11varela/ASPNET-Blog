@@ -4,12 +4,13 @@ namespace ASPNET_Blog.Models
 {
     public class Post : ModelTemplate
     {
+        public override string _TableName {get;set;} = "posts";
         public string Title { get; set; } = "";
         public string Body { get; set; } = "";
         public int Accessibility { get; set; } = 0;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        public int AverageRating { get; set; } = 0;
+        public int UserId { get; set; } = 1;
     
     
         public override Post Filler(SqliteDataReader reader)
@@ -20,9 +21,9 @@ namespace ASPNET_Blog.Models
                 Title = reader.GetString(1),
                 Body = reader.GetString(2),
                 Accessibility = reader.GetInt32(3),
-                // CreatedAt = reader.GetDateTime(4),
-                // UpdatedAt = reader.GetDateTime(5),
-                // AverageRating = reader.GetInt32(6)
+                CreatedAt = reader.GetDateTime(4),
+                UpdatedAt = reader.GetDateTime(5),
+                UserId = reader.GetInt32(6)
             };
         }
 
@@ -35,17 +36,15 @@ namespace ASPNET_Blog.Models
                 command += $"title = '{this.Title}', ";
                 command += $"body = '{this.Body}', ";
                 command += $"accessibility = '{this.Accessibility}', ";
-                // command += $"created_at = '{this.CreatedAt}', ";
-                // command += $"updated_at = '{this.UpdatedAt}', ";
-                // command += $"average_rating = '{this.AverageRating}' ";
+                command += $"created_at = '{this.CreatedAt}', ";
+                command += $"updated_at = '{this.UpdatedAt}', ";
+                command += $"user_id = '{this.UserId}' ";
                 command += $"WHERE id = {this.Id}";
             }
             else
             {
-                command +=
-                    $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, average_rating) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{this.CreatedAt}','{this.UpdatedAt}','{this.AverageRating}');";
+                command += $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, user_id) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{this.CreatedAt}','{this.UpdatedAt}','{this.UserId}');";
             }
-
             AccessDb(command);
         }
     }

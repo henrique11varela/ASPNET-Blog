@@ -24,19 +24,20 @@ public class HomeController : Controller
         // user = user.Find(1);
         // user.Name = "AWOOGA2";
         
-        // user.save();
+        // user.Save();
 
         Post post = new Post();
         
-        // post.Title = "";
-        // post.Body = "";
+        // post.Title = "Post Title";
+        // post.Body = "Post Body";
         // post.Accessibility = 0;
         // post.CreatedAt = DateTime.Now;
-        // post.UpdatedAt = DateTime.Now;
+        // post.UserId = 1;
 
         // post = post.Find(1);
-        // post.Title = "Title test";
-        // post.save();
+        // post.Title = "Title Update";
+        // post.UpdatedAt = DateTime.Now;
+        // post.Save();
         
         return View();
     }

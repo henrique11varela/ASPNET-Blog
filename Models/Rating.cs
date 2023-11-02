@@ -1,10 +1,18 @@
-namespace ASPNET_Blog.Models;
+using Microsoft.Data.Sqlite;
 
-public class Rating
+namespace ASPNET_Blog.Models
 {
-    public int One { get; set; } = 0;
-    public int Two { get; set; } = 0;
-    public int Tree { get; set; } = 0;
-    public int Four { get; set; } = 0;
-    public int Five { get; set; } = 0;
+    public class Rating : ModelTemplate
+    {
+        public int One { get; set; } = 0;
+        public int Two { get; set; } = 0;
+        public int Tree { get; set; } = 0;
+        public int Four { get; set; } = 0;
+        public int Five { get; set; } = 0;
+
+        public override void Save()
+        {
+            
+        }
+    }
 }
