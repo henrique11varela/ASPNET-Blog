@@ -26,6 +26,18 @@ public class HomeController : Controller
         
         // user.save();
 
+        Post post = new Post();
+        
+        // post.Title = "";
+        // post.Body = "";
+        // post.Accessibility = 0;
+        // post.CreatedAt = DateTime.Now;
+        // post.UpdatedAt = DateTime.Now;
+
+        // post = post.Find(1);
+        // post.Title = "Title test";
+        // post.save();
+        
         return View();
     }
 
