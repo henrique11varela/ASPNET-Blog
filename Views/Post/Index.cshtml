@@ -1,6 +1,11 @@
+@model UserPostRatingViewModel
 @{
     ViewBag.Title = "PostIndex";
     Layout = "_Layout";
 }
 
-<h2>PostIndex</h2>
+<h2>All Posts (Index)</h2>
+@foreach (var post in Model.Posts)
+{
+    <p>@post.Id - @post.Title</p>
+}
