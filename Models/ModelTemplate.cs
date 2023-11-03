@@ -2,7 +2,7 @@
 using ASPNET_Blog.Models;
 using Microsoft.Data.Sqlite;
 
-public interface IModelTemplate {}
+public interface IModelTemplate { }
 
 /** How to implement
 *
@@ -12,7 +12,7 @@ public interface IModelTemplate {}
 */
 public class ModelTemplate : IModelTemplate
 {
-    public virtual string _TableName {get; set;} = "";
+    public virtual string _TableName { get; set; } = "";
     public int Id { get; set; }
 
     public virtual IModelTemplate Filler(SqliteDataReader reader)
@@ -44,14 +44,14 @@ public class ModelTemplate : IModelTemplate
     */
     public dynamic Find(int id)
     {
-         string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
-         return AccessDb(query)[0];
+        string query = $"SELECT * FROM {this._TableName} WHERE id = {id}";
+        return AccessDb(query)[0];
     }
 
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<dynamic> All()
+    protected List<dynamic> IAll()
     {
         string query = $"SELECT * FROM {_TableName}";
         return AccessDb(query);
@@ -60,7 +60,7 @@ public class ModelTemplate : IModelTemplate
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    public List<dynamic> Where(string conditions)
+    protected List<dynamic> IWhere(string conditions)
     {
         string query = $"SELECT * FROM {_TableName} WHERE {conditions}";
         return AccessDb(query);

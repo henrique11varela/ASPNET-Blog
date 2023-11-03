@@ -46,6 +46,30 @@ namespace ASPNET_Blog.Models
                 command += $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, user_id) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{this.CreatedAt}','{this.UpdatedAt}','{this.UserId}');";
             }
             AccessDb(command);
+            if (command[0].ToString().ToLower() == "i")
+            {
+                command = $"SELECT * FROM {_TableName} ORDER BY id DESC LIMIT 1;";
+                this.Id = AccessDb(command)[0].Id;
+            }
+        }
+
+        public List<Post> All(){
+            List<Post> list = new List<Post>();
+            List<dynamic> tempList = new Post().IAll();
+            foreach (var item in tempList)
+            {
+                list.Add(item);
+            }
+            return list;
+        }
+        public List<Post> Where(string conditions){
+            List<Post> list = new List<Post>();
+            List<dynamic> tempList = new Post().IWhere(conditions);
+            foreach (var item in tempList)
+            {
+                list.Add(item);
+            }
+            return list;
         }
     }
 }

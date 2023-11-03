@@ -6,9 +6,14 @@ namespace ASPNET_Blog.Services;
 // string test = Request.Cookies["TestCookie"].ToString();
 public class AuthLogic
 {
-    public int validateUser(HttpRequest Request, HttpResponse Response)
+    /*
+    *   Validates if the cookie "UUID" is valid
+    *   and returns the id of the user.
+    *   If it's not valid, redirects to the login page
+    */
+    public static int ValidateUser(HttpRequest Request, HttpResponse Response)
     {
-        string? cookie = Request.Cookies["TestCookie"]?.ToString();
+        string? cookie = Request.Cookies["UUID"]?.ToString();
         if (cookie != null)
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -39,5 +44,29 @@ public class AuthLogic
         }
         Response.Redirect("/user/login");
         return 0;
+    }
+
+    public static void AddNewCookie(int id)
+    {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+        var config = builder.AddJsonFile(@"appsettings.json").Build();
+        using (SqliteConnection connection = new SqliteConnection(config.GetConnectionString("ASPNETBlogContext")))
+        {
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+                command.CommandText = $"INSERT INTO usercookie (user_id, cookie) VALUES ({id},'{Guid.NewGuid()}');";
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (System.Exception ex)
+                {
+                    throw new Exception("Query could not run!: " + ex);
+                }
+                connection.Close();
+            }
+        }
     }
 }
