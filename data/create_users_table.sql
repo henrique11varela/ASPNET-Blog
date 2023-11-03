@@ -37,3 +37,10 @@ CREATE TABLE friends (
     FOREIGN KEY (user1_id) REFERENCES users (id),
     FOREIGN KEY (user2_id) REFERENCES users (id)
 );
+
+CREATE TABLE usercookie (
+    user_id INTEGER,
+    cookie text,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
