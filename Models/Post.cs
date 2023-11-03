@@ -11,8 +11,7 @@ namespace ASPNET_Blog.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public int UserId { get; set; } = 1;
-    
-    
+
         public override Post Filler(SqliteDataReader reader)
         {
             return new Post
@@ -26,7 +25,6 @@ namespace ASPNET_Blog.Models
                 UserId = reader.GetInt32(6)
             };
         }
-
         public override void Save()
         {
             string command = "";
@@ -52,10 +50,9 @@ namespace ASPNET_Blog.Models
                 this.Id = AccessDb(command)[0].Id;
             }
         }
-
         public List<Post> All(){
             List<Post> list = new List<Post>();
-            List<dynamic> tempList = new Post().IAll();
+            List<dynamic> tempList = new Post().Iall();
             foreach (var item in tempList)
             {
                 list.Add(item);
@@ -64,7 +61,7 @@ namespace ASPNET_Blog.Models
         }
         public List<Post> Where(string conditions){
             List<Post> list = new List<Post>();
-            List<dynamic> tempList = new Post().IWhere(conditions);
+            List<dynamic> tempList = new Post().Iwhere(conditions);
             foreach (var item in tempList)
             {
                 list.Add(item);

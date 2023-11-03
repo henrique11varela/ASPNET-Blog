@@ -26,8 +26,9 @@ public class PostController : Controller
     {
         return View();
     }
-    public IActionResult Show()
+    public IActionResult Show(Post post, int id)
     {
+        post.Find(id:id);
         return View();
     }
 }
