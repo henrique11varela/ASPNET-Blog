@@ -11,8 +11,9 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed");
-        //Code goes here
-        return View();
+        UserPostRatingViewModel posts = new UserPostRatingViewModel();
+        posts.Posts = new Post().All();
+        return View(posts);
     }
     public IActionResult Feed()
     {
