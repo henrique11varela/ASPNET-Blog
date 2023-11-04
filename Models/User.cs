@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using ASPNET_Blog.Services;
 using Microsoft.Data.Sqlite;
 
@@ -25,7 +24,6 @@ namespace ASPNET_Blog.Models
                 UpdatedAt = reader.GetDateTime(5)
             };
         }
-
         public override void Save()
         {
             string command = "";
@@ -55,7 +53,7 @@ namespace ASPNET_Blog.Models
         public List<User> All()
         {
             List<User> list = new List<User>();
-            List<dynamic> tempList = new User().IAll();
+            List<dynamic> tempList = new User().Iall();
             foreach (var item in tempList)
             {
                 list.Add(item);
@@ -65,7 +63,7 @@ namespace ASPNET_Blog.Models
         public List<User> Where(string conditions)
         {
             List<User> list = new List<User>();
-            List<dynamic> tempList = new User().IWhere(conditions);
+            List<dynamic> tempList = new User().Iwhere(conditions);
             foreach (var item in tempList)
             {
                 list.Add(item);

@@ -1,5 +1,3 @@
-
-using ASPNET_Blog.Models;
 using Microsoft.Data.Sqlite;
 
 public interface IModelTemplate { }
@@ -51,7 +49,7 @@ public class ModelTemplate : IModelTemplate
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    protected List<dynamic> IAll()
+    protected List<dynamic> Iall()
     {
         string query = $"SELECT * FROM {_TableName}";
         return AccessDb(query);
@@ -60,7 +58,7 @@ public class ModelTemplate : IModelTemplate
     /** Returns a List<> of items that pass the "conditions"
     * 
     */
-    protected List<dynamic> IWhere(string conditions)
+    protected List<dynamic> Iwhere(string conditions)
     {
         string query = $"SELECT * FROM {_TableName} WHERE {conditions}";
         return AccessDb(query);

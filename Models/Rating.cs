@@ -1,5 +1,3 @@
-using Microsoft.Data.Sqlite;
-
 namespace ASPNET_Blog.Models
 {
     public class Rating : ModelTemplate
@@ -9,10 +7,5 @@ namespace ASPNET_Blog.Models
         public int Tree { get; set; } = 0;
         public int Four { get; set; } = 0;
         public int Five { get; set; } = 0;
-
-        public override void Save()
-        {
-            
-        }
     }
 }

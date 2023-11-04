@@ -18,8 +18,9 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-        //Code goes here
-        return View();
+        UserPostRatingViewModel posts = new UserPostRatingViewModel();
+        posts.Posts = new Post().All();
+        return View(posts);
     }
     public IActionResult Create()
     {
@@ -28,6 +29,12 @@ public class PostController : Controller
         //Code goes here
         return View();
     }
+    public void CreateSubmit(Post post)
+    { 
+        // missing validations
+        post.Save(); 
+        Response.Redirect("/post");
+    }
     public IActionResult Edit()
     {
         int userId = AuthLogic.ValidateUser(Request);
@@ -35,7 +42,7 @@ public class PostController : Controller
         //Code goes here
         return View();
     }
-    public IActionResult Show()
+    public IActionResult Show(Post post, int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
