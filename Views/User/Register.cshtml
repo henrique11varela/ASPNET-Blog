@@ -5,8 +5,29 @@
 }
 
 <h2>Register</h2>
-<form asp-action="RegisterSubmit">
-    <label>Name</label>
-    <input type="text" asp-for="User.Name" >
-    <button>Submit</button>
-</form>
+<div class="w-100 d-flex justify-content-center">
+    <form asp-action="RegisterSubmit" class="w-25">
+        @* NAME *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Name:</label>
+            <input class="w-100" type="text" asp-for="User.Name">
+        </div>
+        @* EMAIL *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Email:</label>
+            <input class="w-100" type="email" asp-for="User.Email">
+        </div>
+        @* PASSWORD *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Password:</label>
+            <input class="w-100" type="password" asp-for="User.Password">
+        </div>
+        @* CONFIRM PASSWORD *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Confirm password:</label>
+            <input class="w-100" type="password" asp-for="PasswordConfirm">
+        </div>
+        @* SUBMIT *@
+        <button class="btn btn-primary w-100">Submit</button>
+    </form>
+</div>

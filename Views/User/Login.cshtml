@@ -1,6 +1,23 @@
+@model UserPostRatingViewModel
 @{
     ViewBag.Title = "Login";
     Layout = "_Layout";
 }
 
 <h2>Login</h2>
+<div class="w-100 d-flex justify-content-center">
+    <form asp-action="LoginSubmit" class="w-25">
+        @* NAME *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Name:</label>
+            <input class="w-100" type="text" asp-for="User.Name">
+        </div>
+        @* PASSWORD *@
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Password:</label>
+            <input class="w-100" type="password" asp-for="User.Password">
+        </div>
+        @* SUBMIT *@
+        <button class="btn btn-primary w-100">Submit</button>
+    </form>
+</div>
