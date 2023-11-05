@@ -10,12 +10,12 @@
         @* NAME *@
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Name:</label>
-            <input class="w-100" type="text" asp-for="User.Name">
+            <input class="w-100" type="text" asp-for="User.Name" required>
         </div>
         @* PASSWORD *@
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Password:</label>
-            <input class="w-100" type="password" asp-for="User.Password">
+            <input class="w-100" type="password" asp-for="User.Password" required>
         </div>
         @* SUBMIT *@
         <button class="btn btn-primary w-100">Submit</button>

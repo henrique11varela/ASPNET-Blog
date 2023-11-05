@@ -11,43 +11,47 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed");
-        UserPostRatingViewModel posts = new UserPostRatingViewModel();
-        posts.Posts = new Post().All();
-        return View(posts);
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.IsLoggedIn = false;
+        UPR.Posts = new Post().All();
+        return View(UPR);
     }
     public IActionResult Feed()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-        UserPostRatingViewModel posts = new UserPostRatingViewModel();
-        posts.Posts = new Post().All();
-        return View(posts);
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.Posts = new Post().All();
+        return View(UPR);
     }
     public IActionResult Create()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
-        return View();
+        return View(UPR);
     }
     public void CreateSubmit(Post post)
-    { 
+    {
         // missing validations
-        post.Save(); 
+        post.Save();
         Response.Redirect("/post");
     }
     public IActionResult Edit()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
-        return View();
+        return View(UPR);
     }
     public IActionResult Show(Post post, int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
-        return View();
+        return View(UPR);
     }
 }

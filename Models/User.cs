@@ -70,5 +70,8 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
+        public List<Post> Posts(){
+            return new Post().Where($"user_id = {this.Id}");
+        }
     }
 }

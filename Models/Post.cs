@@ -10,7 +10,7 @@ namespace ASPNET_Blog.Models
         public int Accessibility { get; set; } = 0;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        public int UserId { get; set; } = 1;
+        protected int UserId { get; set; } = 1;
 
         public override Post Filler(SqliteDataReader reader)
         {
@@ -67,6 +67,12 @@ namespace ASPNET_Blog.Models
                 list.Add(item);
             }
             return list;
+        }
+        public User User(){
+            return new User().Find(this.UserId);
+        }
+        public Rating Rating(){
+            return new Rating().Find(this.Id);
         }
     }
 }

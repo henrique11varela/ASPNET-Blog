@@ -22,15 +22,18 @@ public class UserController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Index");
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
-        return View();
+        return View(UPR);
     }
 
     public IActionResult Login()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed", "Post");
-        return View();
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.IsLoggedIn = false;
+        return View(UPR);
     }
 
     public IActionResult LoginSubmit(User user)
@@ -43,12 +46,19 @@ public class UserController : Controller
         }
         return RedirectToAction("Login", "User");
     }
+    public IActionResult LogoutSubmit()
+    {
+        AuthLogic.ClearCookie(Response);
+        return RedirectToAction("Index", "Post");
+    }
 
     public IActionResult Register()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed", "Post");
-        return View();
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.IsLoggedIn = false;
+        return View(UPR);
     }
 
     public IActionResult RegisterSubmit(UserPostRatingViewModel UPR)
@@ -58,24 +68,24 @@ public class UserController : Controller
         List<User> list = new List<User>();
         if (UPR.User.Name != null)
         {
-            list = new User().Where($"username = '{UPR.User.Name}'");
-            if (list.Count > 0)
+            // Validate Email
+            if (UPR.User.Email != null)
             {
-                isValid = false;
+                Regex reg = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+                if (!reg.IsMatch(UPR.User.Email))
+                {
+                    isValid = false;
+                }
+                list = new User().Where($"username LIKE '{UPR.User.Name}' OR email LIKE '{UPR.User.Email}'");
+                if (list.Count > 0)
+                {
+                    isValid = false;
+                }
             }
         }
         else
         {
             isValid = false;
-        }
-        // Validate Email
-        if (isValid && UPR.User.Email != null)
-        {
-            Regex reg = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-            if (!reg.IsMatch(UPR.User.Email))
-            {
-                isValid = false;
-            }
         }
         //Validate Password
         if (isValid && UPR.User.Password != UPR.PasswordConfirm)
@@ -95,7 +105,8 @@ public class UserController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Index");
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
-        return View();
+        return View(UPR);
     }
 }

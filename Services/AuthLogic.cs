@@ -94,4 +94,8 @@ public class AuthLogic
             }
         }
     }
+    public static void ClearCookie(HttpResponse Response)
+    {
+        Response.Cookies.Append("UUID", "");
+    }
 }
