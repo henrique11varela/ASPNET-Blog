@@ -6,4 +6,16 @@
 
 <h2>ShowPost</h2>
 
-
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => model.Post.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Post.Title)
+        </dd>
+        <dd>
+             @Html.DisplayFor(model => model.Post.Body)
+        </dd>
+    </dl>
+</div> 
