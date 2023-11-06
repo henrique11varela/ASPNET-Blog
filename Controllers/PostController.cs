@@ -46,12 +46,13 @@ public class PostController : Controller
         //Code goes here
         return View(UPR);
     }
-    public IActionResult Show(Post post, int id)
+    public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
+        UPR.Post = new Post().Find(id);
         return View(UPR);
     }
 }
