@@ -4,4 +4,25 @@
     Layout = "_Layout";
 }
 
-<h2>Edit</h2>
+<h2>Edit Post</h2>
+<div class="w-100 d-flex justify-content-center">
+    <form class="w-25" asp-action="CreateSubmit">
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Title</label>
+            <input type="text" asp-for="Post.Title" value="@Model.Post.Title" class="w-100" required>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Body</label>
+            <textarea type="text" asp-for="Post.Body" value="@Model.Post.Body" class="w-100" required></textarea>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Accessibility</label>
+            <select asp-for="Post.Accessibility" class="w-100" required>
+                <option @(Model.Post.Accessibility == 0 ? "selected" : "") value="0">Public</option>
+                <option @(Model.Post.Accessibility == 1 ? "selected" : "") value="1">Friends Only</option>
+                <option @(Model.Post.Accessibility == 2 ? "selected" : "") value="2">Private</option>
+            </select>
+        </div>
+        <button class="btn btn-primary w-100">Submit</button>
+    </form>
+</div>
