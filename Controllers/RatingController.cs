@@ -5,5 +5,5 @@ namespace ASPNET_Blog.Controllers;
 
 public class RatingController : Controller
 {
-  
+
 }

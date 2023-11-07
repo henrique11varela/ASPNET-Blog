@@ -1,10 +1,11 @@
 ﻿@model UserPostRatingViewModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ASPNET_Blog</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ASPNET_Blog.styles.css" asp-append-version="true" />
@@ -26,7 +27,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if(!Model.IsLoggedIn){
+                        @if(!(bool)ViewData["IsLoggedIn"]){
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         </li>
@@ -34,7 +35,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
                         </li>
                         }
-                        @if(Model.IsLoggedIn){
+                        @if((bool)ViewData["IsLoggedIn"]){
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogoutSubmit">Logout</a>
                         </li>
