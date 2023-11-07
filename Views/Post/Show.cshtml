@@ -18,11 +18,31 @@
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Accessibility</label>
             <select asp-for="Post.Accessibility" class="w-100" disabled>
-                <option @(Model.Post.Accessibility == 0 ? "selected" : "") value="0">Public</option>
-                <option @(Model.Post.Accessibility == 1 ? "selected" : "") value="1">Friends Only</option>
-                <option @(Model.Post.Accessibility == 2 ? "selected" : "") value="2">Private</option>
+                @if (Model.Post.Accessibility == 0)
+                {
+                    <option selected value="0">Public</option>
+                }
+                else
+                {
+                    <option value="0">Public</option>
+                }
+                @if (Model.Post.Accessibility == 1)
+                {
+                    <option selected value="1">Friends Only</option>
+                }
+                else
+                {
+                    <option value="1">Friends Only</option>
+                }
+                @if (Model.Post.Accessibility == 2)
+                {
+                    <option selected value="2">Private</option>
+                }
+                else
+                {
+                    <option value="2">Private</option>
+                }
             </select>
         </div>
-        <button class="btn btn-primary w-100">Submit</button>
     </form>
 </div>

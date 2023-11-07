@@ -7,10 +7,10 @@ namespace ASPNET_Blog.Models
         public override string _TableName {get;set;} = "posts";
         public string Title { get; set; } = "";
         public string Body { get; set; } = "";
-        public int Accessibility { get; set; } = 0;
+        public int? Accessibility { get; set; } = null;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        protected int UserId { get; set; } = 1;
+        public int UserId { get; set; } = 1;
 
         public override Post Filler(SqliteDataReader reader)
         {

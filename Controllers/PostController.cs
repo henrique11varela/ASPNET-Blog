@@ -13,8 +13,7 @@ public class PostController : Controller
         if (userId != 0) return RedirectToAction("Feed");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        // UPR.IsLoggedIn = false;
-        UPR.Posts = new Post().All();
+        UPR.Posts = new Post().Where("accessibility = 0");
         return View(UPR);
     }
     public IActionResult Feed()
@@ -35,20 +34,45 @@ public class PostController : Controller
         //Code goes here
         return View(UPR);
     }
-    public void CreateSubmit(Post post)
+    public IActionResult CreateSubmit(UserPostRatingViewModel UPR)
     {
-        // missing validations
-        post.Save();
-        Response.Redirect("/post");
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login", "User");
+        
+        if (UPR.Post.Title == null || UPR.Post.Body == null || UPR.Post.Accessibility == null)
+        {
+            return RedirectToAction("Create", "Post");
+        }
+        
+        UPR.Post.UserId = userId;
+        UPR.Post.Save();
+        
+        return RedirectToAction("Show", "Post", new { id = UPR.Post.Id });
     }
-    public IActionResult Edit()
+    public IActionResult Edit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
+        UPR.Post = new Post().Find(id);
         return View(UPR);
+    }
+    public IActionResult EditSubmit(UserPostRatingViewModel UPR)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login", "User");
+        
+        if (UPR.Post.Title == null || UPR.Post.Body == null || UPR.Post.Accessibility == null)
+        {
+            return RedirectToAction("Edit", "Post", new { id = UPR.Post.Id });
+        }
+        
+        UPR.Post.UserId = userId;
+        UPR.Post.Save();
+        
+        return RedirectToAction("Show", "Post", new { id = UPR.Post.Id });
     }
     public IActionResult Show(int id)
     {
