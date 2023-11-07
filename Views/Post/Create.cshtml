@@ -5,10 +5,25 @@
 }
 
 <h2>Create Post</h2>
-<form asp-action="CreateSubmit">
-    <label>Title</label>
-    <input type="text" asp-for="Post.Title" >
-    <label>Body</label>
-    <input type="text" asp-for="Post.Body" >
-    <button>Submit</button>
-</form>
+<div class="w-100 d-flex justify-content-center">
+    <form class="w-25" asp-action="CreateSubmit">
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Title</label>
+            <input type="text" asp-for="Post.Title" class="w-100" required>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Body</label>
+            <textarea type="text" asp-for="Post.Body" class="w-100" required></textarea>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Accessibility</label>
+            <select asp-for="Post.Accessibility" class="w-100" required>
+                <option disabled selected>Select</option>
+                <option value="0">Public</option>
+                <option value="1">Friends Only</option>
+                <option value="2">Private</option>
+            </select>
+        </div>
+        <button class="btn btn-primary w-100">Submit</button>
+    </form>
+</div>
