@@ -22,14 +22,23 @@ CREATE TABLE
 
 CREATE TABLE
     ratings (
+        user_id INTEGER,
+        post_id INTEGER,
+        rating INTEGER,
+        PRIMARY KEY (user_id, post_id),
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (post_id) REFERENCES posts (id)
+    );
+
+CREATE TABLE
+    comments (
         id INTEGER,
-        one INTEGER,
-        two INTEGER,
-        three INTEGER,
-        four INTEGER,
-        five INTEGER,
+        user_id INTEGER,
+        post_id INTEGER,
+        body TEXT,
         PRIMARY KEY (id),
-        FOREIGN KEY (id) REFERENCES posts (id)
+        FOREIGN KEY (user_id) REFERENCES users (id)
+        FOREIGN KEY (post_id) REFERENCES posts (id)
     );
 
 CREATE TABLE

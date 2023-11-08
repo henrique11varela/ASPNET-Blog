@@ -13,19 +13,18 @@ public class UserController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Index");
         ViewData["IsLoggedIn"] = true;
-        //Code goes here
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Users = new User().All();
         return View(UPR);
     }
 
-    public IActionResult Edit()
+    public IActionResult Edit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Index");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        //Code goes here
+        UPR.User = new User().Find(id);
         return View(UPR);
     }
 
@@ -35,7 +34,6 @@ public class UserController : Controller
         if (userId != 0) return RedirectToAction("Feed", "Post");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        // UPR.IsLoggedIn = false;
         return View(UPR);
     }
 
@@ -61,7 +59,6 @@ public class UserController : Controller
         if (userId != 0) return RedirectToAction("Feed", "Post");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        // UPR.IsLoggedIn = false;
         return View(UPR);
     }
 
@@ -105,13 +102,13 @@ public class UserController : Controller
         return RedirectToAction("Feed", "Post");
     }
 
-    public IActionResult Show()
+    public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Index");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        //Code goes here
+        UPR.User = new User().Find(id);
         return View(UPR);
     }
 }

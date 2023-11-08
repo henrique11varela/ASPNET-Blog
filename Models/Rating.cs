@@ -6,74 +6,56 @@ namespace ASPNET_Blog.Models
     {
         public override string _TableName { get; set; } = "ratings";
 
-        public int One { get; private set; } = 0;
-        public int Two { get; private set; } = 0;
-        public int Three { get; private set; } = 0;
-        public int Four { get; private set; } = 0;
-        public int Five { get; private set; } = 0;
+        public int UserId { get; private set; } = 0;
+        public int PostId { get; private set; } = 0;
+        public int Value { get; private set; } = 0;
+        
 
         public override Rating Filler(SqliteDataReader reader)
         {
             return new Rating
             {
-                Id = reader.GetInt32(0),
-                One = reader.GetInt32(1),
-                Two = reader.GetInt32(2),
-                Three = reader.GetInt32(3),
-                Four = reader.GetInt32(4),
-                Five = reader.GetInt32(5)
+                UserId = reader.GetInt32(0),
+                PostId = reader.GetInt32(1),
+                Value = reader.GetInt32(2)
             };
-        }
-        public double AddRating(int stars){
-            switch (stars)
-            {
-                case 1:
-                    One++;
-                    break;
-                case 2:
-                    Two++;
-                    break;
-                case 3:
-                    Three++;
-                    break;
-                case 4:
-                    Four++;
-                    break;
-                case 5:
-                    Five++;
-                    break;
-                default:
-                    return 0;
-            }
-            return (One + Two * 2 + Three * 3 + Four * 4 + Five * 5) / (One + Two + Three + Four + Five);
-        }
-        public double ReadRating(){
-            return (One + Two * 2 + Three * 3 + Four * 4 + Five * 5) / (One + Two + Three + Four + Five);
         }
         public override void Save()
         {
+            List<Rating> curr = new Rating().Where($"user_id = {this.UserId} AND post_id = {this.PostId}");
             string command = "";
-            if (this.Id > 0)
+            if (curr.Count > 0)
             {
                 command += $"UPDATE {_TableName} SET ";
-                command += $"id = {this.Id}, ";
-                command += $"one = {this.One}, ";
-                command += $"two = {this.Two}, ";
-                command += $"three = {this.Three}, ";
-                command += $"four = {this.Four}, ";
-                command += $"five = {this.Five}, ";
-                command += $"WHERE id = {this.Id}";
+                command += $"rating = {this.Value}, ";
+                command += $"WHERE user_id = {this.UserId} AND post_id = {this.PostId}";
             }
             else
             {
-                command += $"INSERT INTO {_TableName} (id, one, two, three, four, five) VALUES ({this.Id}, {this.One}, {this.Two}, {this.Three}, {this.Four}, {this.Five});";
+                command += $"INSERT INTO {_TableName} (user_id, post_id, rating) VALUES ({this.UserId}, {this.PostId}, {this.Value});";
             }
             AccessDb(command);
-            if (command[0].ToString().ToLower() == "i")
+        }
+
+        public List<Rating> All()
+        {
+            List<Rating> list = new List<Rating>();
+            List<dynamic> tempList = new Rating().Iall();
+            foreach (var item in tempList)
             {
-                command = $"SELECT * FROM {_TableName} ORDER BY id DESC LIMIT 1;";
-                this.Id = AccessDb(command)[0].Id;
+                list.Add(item);
             }
+            return list;
+        }
+
+        public List<Rating> Where(string conditions){
+            List<Rating> list = new List<Rating>();
+            List<dynamic> tempList = new Rating().Iwhere(conditions);
+            foreach (var item in tempList)
+            {
+                list.Add(item);
+            }
+            return list;
         }
     }
 }
