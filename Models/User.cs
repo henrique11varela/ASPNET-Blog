@@ -70,8 +70,31 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
-        public List<Post> Posts(){
+        public List<Post> Posts()
+        {
             return new Post().Where($"user_id = {this.Id}");
+        }
+
+        public List<User> Friends()
+        {
+            return new Friends().Of(this.Id);
+        }
+
+        public List<Post> PostsForMe()
+        {
+            List<Post> list = new List<Post>();
+            string friends = "";
+            List<User> f = new Friends().Of(this.Id);
+            foreach (var item in f)
+            {
+                friends += ", " + item.Id;
+            }
+            List<dynamic> tempList = AccessDb($"SELECT * FROM {new Post()._TableName} WHERE accessibility IN (0, 1) AND user_id IN ({this.Id}, {friends})");
+            foreach (var item in tempList)
+            {
+                list.Add(item);
+            }
+            return list;
         }
     }
 }

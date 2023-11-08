@@ -11,7 +11,7 @@ public class UserController : Controller
     public IActionResult Index()
     {
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Index");
+        if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Users = new User().All();
@@ -21,7 +21,7 @@ public class UserController : Controller
     public IActionResult Edit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Index");
+        if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
@@ -105,7 +105,7 @@ public class UserController : Controller
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Index");
+        if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
