@@ -22,7 +22,7 @@ public class PostController : Controller
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = new Post().All();
+        UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
         return View(UPR);
     }
     public IActionResult Create()

@@ -42,12 +42,12 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    friends (
-        user1_id INTEGER,
-        user2_id INTEGER,
-        PRIMARY KEY (user1_id, user2_id),
-        FOREIGN KEY (user1_id) REFERENCES users (id),
-        FOREIGN KEY (user2_id) REFERENCES users (id)
+    follows (
+        user_id INTEGER,
+        following_id INTEGER,
+        PRIMARY KEY (user_id, following_id),
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (following_id) REFERENCES users (id)
     );
 
 CREATE TABLE
