@@ -4,4 +4,16 @@
     Layout = "_Layout";
 }
 
-<h2>ShowUser</h2>
+<h2>Show User </h2>
+<div class="w-100 d-flex justify-content-center">
+    <form class="w-25">
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Name</label>
+            <input type="text" value="@Model.User.Name" class="w-100" disabled>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Email</label>
+            <input type="text" value="@Model.User.Email" class="w-100" disabled>
+        </div>
+    </form>
+</div>
