@@ -4,4 +4,29 @@
     Layout = "_Layout";
 }
 
-<h2>Edit</h2>
+<h2>Edit User</h2>
+<div class="w-100 d-flex justify-content-center">
+    <form class="w-25 " asp-action="EditSubmit">
+        <input type="text" asp-for="User.Id" value="@Model.User.Id" hidden>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Name</label>
+            <input type="text" asp-for="User.Name" value="@Model.User.Name" class="w-100" required>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Email</label>
+            <input type="email" asp-for="User.Email" value="@Model.User.Email" class="w-100" required>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Password</label>
+            <input type="password" asp-for="User.Password" value="@Model.User.Password" class="w-100" required>
+        </div>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Confirm Password</label>
+            <input type="password" asp-for="PasswordConfirm" class="w-100">
+        </div>
+        <div class="d-flex">
+            <button class="btn btn-primary w-100">Submit</button>
+            <button class="btn btn-danger w-100">Delete</button>
+        </div>
+    </form>
+</div>

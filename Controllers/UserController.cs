@@ -18,16 +18,74 @@ public class UserController : Controller
         return View(UPR);
     }
 
-    public IActionResult Edit(int id)
+    public IActionResult Edit()
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.User = new User().Find(id);
+        UPR.User = new User().Find(userId);
         return View(UPR);
     }
 
+    public IActionResult EditSubmit(UserPostRatingViewModel UPR)
+    {
+        var userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Edit", "User");
+        
+        var isValid = true;
+
+        var list = new List<User>();
+        // Validate Name
+        if (UPR.User.Name != null && UPR.User.Name != ((User)new User().Find(userId)).Name)
+        {
+            list = new User().Where($"username LIKE '{UPR.User.Name}'");
+            if (list.Count > 0)
+            {
+                isValid = false;
+            } 
+        } 
+        else if (UPR.User.Name == null)
+        {
+            isValid = false;
+        }
+        list = new List<User>();
+        
+        // Validate Email
+        if (UPR.User.Email != null && UPR.User.Email != ((User)new User().Find(userId)).Email)
+        {
+            var reg = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            if (!reg.IsMatch(UPR.User.Email))
+            {
+                isValid = false;
+            } 
+            list = new User().Where($"email LIKE '{UPR.User.Email}'");
+            if (list.Count > 0)
+            {
+                isValid = false;
+            } 
+        } 
+        else if (UPR.User.Email == null)
+        {
+            isValid = false;
+        }
+        
+        // Validate Password
+        if (isValid && UPR.User.Password != ((User)new User().Find(userId)).Password)
+        {
+            if (UPR.User.Password == null || UPR.User.Password != UPR.PasswordConfirm)
+            {
+                isValid = false;
+            }
+        }
+
+        if (!isValid) return RedirectToAction("Edit", "User");
+        
+        UPR.User.Save();
+        
+        return RedirectToAction("Show", "User", new {id = userId});
+    }
+    
     public IActionResult Login()
     {
         int userId = AuthLogic.ValidateUser(Request);
@@ -47,6 +105,7 @@ public class UserController : Controller
         }
         return RedirectToAction("Login", "User");
     }
+    
     public IActionResult LogoutSubmit()
     {
         AuthLogic.ClearCookie(Response);
