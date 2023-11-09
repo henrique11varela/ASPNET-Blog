@@ -41,19 +41,25 @@
             {
                 <div>
                     <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.User.Id"
-                        class="w-100 btn btn-secondary">UnFollow</a>
+                       class="w-100 btn btn-secondary">UnFollow</a>
                 </div>
             }
             else
             {
                 <div>
                     <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.User.Id"
-                        class="w-100 btn btn-secondary">Follow</a>
+                       class="w-100 btn btn-secondary">Follow</a>
                 </div>
 
             }
         }
     </form>
+    @if (((User)ViewData["User"]).Id == Model.User.Id)
+    {
+    <div class="w-100 d-flex justify-content-center">
+        <a class="btn btn-primary w-25" asp-controller="Post" asp-action="Create">Create Post</a>
+    </div>
+    }
     <div class="w-100">
         @Html.Partial("_PostList")
     </div>
