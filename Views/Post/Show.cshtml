@@ -44,8 +44,11 @@
                 }
             </select>
         </div>
-        @if(((User)ViewData["User"]).Id == Model.Post.UserId){
-            <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id" class="w-100 btn btn-primary">Edit</a>
-        }
-    </form>
+        <div>
+            @if(((User)ViewData["User"]).Id == Model.Post.UserId){
+                <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id" class="w-100 btn btn-primary">Edit</a>
+            }
+            <a class="btn" asp-controller="User" asp-action="Show" asp-route-id="@Model.Post.UserId">@Model.Post.User().Name</a>
+        </div>
+        </form>
 </div>
