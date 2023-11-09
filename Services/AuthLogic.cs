@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Data.Sqlite;
 
 namespace ASPNET_Blog.Services;
@@ -86,7 +87,10 @@ public class AuthLogic
                     {
                         while (reader.Read())
                         {
-                            Response.Cookies.Append("UUID", reader.GetString(1));
+                            CookieOptions co = new CookieOptions();
+                            co.HttpOnly = true;
+                            co.Expires = DateTime.Now.AddHours(2);
+                            Response.Cookies.Append("UUID", reader.GetString(1), co);
                         }
                     }
                 }
