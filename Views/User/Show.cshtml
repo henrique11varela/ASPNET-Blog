@@ -36,16 +36,32 @@
                 {
                     <div>
                         <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary">UnFollow</a>
+                            class="w-100 btn btn-secondary mb-3">UnFollow</a>
                     </div>
                 }
                 else
                 {
                     <div>
                         <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary">Follow</a>
+                            class="w-100 btn btn-secondary mb-3">Follow</a>
                     </div>
-
+                }
+            }
+            if (((User)ViewData["User"]).Role == "admin" && ((User)ViewData["User"]).Id != Model.User.Id)
+            {
+                if (Model.User.Role == "admin")
+                {
+                    <div>
+                        <a asp-controller="Admin" asp-action="RevokeAdmin" asp-route-id="@Model.User.Id"
+                            class="w-100 btn btn-secondary mb-3">Revoke Admin Rights</a>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <a asp-controller="Admin" asp-action="AddAdmin" asp-route-id="@Model.User.Id"
+                            class="w-100 btn btn-secondary mb-3">Add Admin Rights</a>
+                    </div>
                 }
             }
         }

@@ -87,6 +87,10 @@ namespace ASPNET_Blog.Models
             }
             return output;
         }
+        public List<Rating> Ratings()
+        {
+            return new Rating().Where($"post_id = {this.Id}");
+        }
     
         public List<Comment> Comments(){
             return new Comment().Where($"post_id = {this.Id}");

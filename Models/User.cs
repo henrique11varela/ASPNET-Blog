@@ -9,6 +9,7 @@ namespace ASPNET_Blog.Models
         public string Name { get; set; } = "";
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
+        public string Role { get; set; } = "";
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
@@ -20,8 +21,9 @@ namespace ASPNET_Blog.Models
                 Name = reader.GetString(1),
                 Password = reader.GetString(2),
                 Email = reader.GetString(3),
-                CreatedAt = reader.GetDateTime(4),
-                UpdatedAt = reader.GetDateTime(5)
+                Role = reader.GetString(4),
+                CreatedAt = reader.GetDateTime(5),
+                UpdatedAt = reader.GetDateTime(6)
             };
         }
         public override void Save()
@@ -33,12 +35,13 @@ namespace ASPNET_Blog.Models
                 command += $"username = '{this.Name}', ";
                 command += $"email = '{this.Email}', ";
                 command += $"password = '{this.Password}', ";
+                command += $"role = '{this.Role}', ";
                 command += $"updated_at = '{DateTime.Now}' ";
                 command += $"WHERE id = {this.Id}";
             }
             else
             {
-                command += $"INSERT INTO {_TableName} (username, email, password, created_at, updated_at) VALUES ('{this.Name}','{this.Email}','{this.Password}', '{DateTime.Now}', '{DateTime.Now}');";
+                command += $"INSERT INTO {_TableName} (username, email, password, role, created_at, updated_at) VALUES ('{this.Name}','{this.Email}','{this.Password}','member', '{DateTime.Now}', '{DateTime.Now}');";
             }
             AccessDb(command);
             if (command[0].ToString().ToLower() == "i")

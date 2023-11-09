@@ -55,7 +55,14 @@
                 if (((User)ViewData["User"]).Id == Model.Post.UserId)
                 {
                     <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id"
-                        class="w-100 btn btn-primary">Edit</a>
+                        class="w-100 btn btn-primary mb-3">Edit</a>
+                }
+                if (((User)ViewData["User"]).Role == "admin")
+                {
+                    <div class="d-flex">
+                        <a asp-controller="Post" asp-action="DeleteSubmit" asp-route-id="@Model.Post.Id"
+                            class="btn btn-danger w-100">Delete</a>
+                    </div>
                 }
             }
         </div>

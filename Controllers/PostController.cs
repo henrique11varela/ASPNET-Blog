@@ -84,10 +84,23 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-
+        User loggedUser = new User().Find(userId);
         Post post = new Post().Find(id);
-        if (post.UserId != userId) return RedirectToAction("Index", "Post");
-
+        if (post.UserId != userId)
+        {
+            if (loggedUser.Role != "admin")
+            {
+                return RedirectToAction("Index", "Post");
+            }
+        }
+        foreach (var comment in post.Comments())
+        {
+            comment.Delete();
+        }
+        foreach (var ratings in post.Ratings())
+        {
+            ratings.DeleteWhere($"post_id = {post.Id}");
+        }
         post.Delete();
 
         return RedirectToAction("Index", "Post");
