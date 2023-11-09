@@ -6,7 +6,7 @@
 
 <h2>Edit Post</h2>
 <div class="w-100 d-flex justify-content-center">
-    <form class="w-25" asp-action="CreateSubmit">
+    <form class="w-25" asp-action="EditSubmit">
         <input type="text" asp-for="Post.Id" value="@Model.Post.Id" hidden>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Title</label>
@@ -29,7 +29,7 @@
                 }
                 @if(Model.Post.Accessibility == 1)
                 {
-                    <option selected value="1">Friends Only</option>
+                    <option selected value="1">Followers</option>
                 }
                 else
                 {
@@ -45,6 +45,9 @@
                 }
             </select>
         </div>
-        <button class="btn btn-primary w-100">Submit</button>
+        <div class="d-flex">
+            <button class="btn btn-primary w-100">Submit</button>
+            <button asp-controller="Post" asp-action="DeleteSubmit" asp-route-id="@Model.Post.Id" class="btn btn-danger w-100">Delete</button>
+        </div>
     </form>
 </div>

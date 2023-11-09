@@ -77,6 +77,19 @@ public class PostController : Controller
         
         return RedirectToAction("Show", "Post", new { id = UPR.Post.Id });
     }
+    public IActionResult DeleteSubmit(int id)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login", "User");
+        
+        Post post = new Post().Find(id);
+        if (post.UserId != userId) return RedirectToAction("Index", "Post");
+        
+        post.Delete();
+        
+        return RedirectToAction("Index", "Post");
+    }
+    
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
