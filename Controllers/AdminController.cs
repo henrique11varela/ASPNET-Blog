@@ -35,7 +35,7 @@ public class AdminController : Controller
         targetUser.Role = "admin";
         targetUser.Save();
 
-        return RedirectToAction("Index", "Admin");
+        return Redirect(Request.Headers["Referer"].ToString());
     }
     
     public IActionResult RevokeAdmin(int id)
@@ -51,6 +51,6 @@ public class AdminController : Controller
         targetUser.Role = "member";
         targetUser.Save();
 
-        return RedirectToAction("Index", "Admin");
+        return Redirect(Request.Headers["Referer"].ToString());
     }
 }
