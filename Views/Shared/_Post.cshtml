@@ -9,6 +9,16 @@
     <hr>
     <div>
         <p class="mx-3">@Model.Body</p>
-        <p class="mx-3">Rating (para ver)</p>
+        <div>
+            <p class="mx-3">Rating (para ver)</p>
+            @if (Model.CreatedAt == Model.UpdatedAt)
+            {
+                <p class="mx-3">@Model.CreatedAt</p>
+            }
+            else
+            {
+                <p class="mx-3">@Model.UpdatedAt (edited)</p>
+            }
+        </div>
     </div>
 </div>

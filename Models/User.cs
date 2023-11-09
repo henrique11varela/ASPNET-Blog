@@ -33,7 +33,6 @@ namespace ASPNET_Blog.Models
                 command += $"username = '{this.Name}', ";
                 command += $"email = '{this.Email}', ";
                 command += $"password = '{this.Password}', ";
-                command += $"created_at = '{this.CreatedAt}', ";
                 command += $"updated_at = '{DateTime.Now}' ";
                 command += $"WHERE id = {this.Id}";
             }
@@ -79,6 +78,12 @@ namespace ASPNET_Blog.Models
         {
             return new Follows().Following(this.Id);
         }
+
+        public List<User> Followed()
+        {
+            return new Follows().Followed(this.Id);
+        }
+        
         public bool isFollowing(int id)
         {
             List<Follows> follows = new Follows().Where($"user_id = {this.Id} AND following_id = {id}");

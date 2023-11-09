@@ -1,4 +1,30 @@
-﻿@model UserPostRatingViewModel
+﻿@model User
 <div class="w-100">
-
+    <div class="w-100 d-flex justify-content-between">
+        <a asp-controller="User" asp-action="Show" asp-route-id="@Model.Id">
+            <h3>@Model.Name</h3>
+        </a>
+        <p>@Model.Posts().Count posts</p>
+        @if (((User)ViewData["User"]).Id == Model.Id)
+        {
+            <div>
+                <a asp-controller="User" asp-action="Show" asp-route-id="@Model.Id" class="w-100 btn btn-secondary">You</a>
+            </div>
+        }
+        else if (((User)ViewData["User"]).isFollowing(Model.Id))
+        {
+            <div>
+                <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.Id"
+                    class="w-100 btn btn-secondary">UnFollow</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.Id"
+                    class="w-100 btn btn-secondary">Follow</a>
+            </div>
+        }
+    </div>
+    <hr>
 </div>

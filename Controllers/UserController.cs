@@ -194,25 +194,52 @@ public class UserController : Controller
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
         UPR.Posts = new Post().Where($"user_id = {id} AND accessibility IN (0{(isFollowing)})");
+        UPR.Posts.Reverse();
         return View(UPR);
     }
 
-    public IActionResult Follow(int id)
+    public IActionResult Followers(int id)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login");
+        ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.Users = ((User)new User().Find(id)).Followed();
+        return View(UPR);
+    }
+
+    public IActionResult Following(int id)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login");
+        ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
+        UserPostRatingViewModel UPR = new UserPostRatingViewModel();
+        UPR.Users = ((User)new User().Find(id)).Following();
+        return View(UPR);
+    }
+
+    public IActionResult FollowSubmit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Show", "User", new { id = id });
-
-        ((User)new User().Find(userId)).Follow(id);
+        if (userId != id)
+        {
+            ((User)new User().Find(userId)).Follow(id);
+        }
 
         return RedirectToAction("Show", "User", new { id = id });
     }
-    public IActionResult UnFollow(int id)
+
+    public IActionResult UnFollowSubmit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Show", "User", new { id = id });
-
-        ((User)new User().Find(userId)).UnFollow(id);
-
+        if (userId != id)
+        {
+            ((User)new User().Find(userId)).UnFollow(id);
+        }
         return RedirectToAction("Show", "User", new { id = id });
     }
 }

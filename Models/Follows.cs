@@ -48,5 +48,16 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
+
+        public List<User> Followed(int id)
+        {
+            List<User> list = new List<User>();
+            List<Follows> tempList = new Follows().Where($"following_id = {id}");
+            foreach (Follows item in tempList)
+            {
+                    list.Add(new User().Find(item.UserId));
+            }
+            return list;
+        }
     }
 }

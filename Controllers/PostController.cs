@@ -14,6 +14,7 @@ public class PostController : Controller
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Posts = new Post().Where("accessibility = 0");
+        UPR.Posts.Reverse();
         return View(UPR);
     }
     public IActionResult Feed()
@@ -24,6 +25,8 @@ public class PostController : Controller
         ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
+        UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
+        UPR.Posts.Reverse();
         return View(UPR);
     }
     public IActionResult Create()
@@ -89,7 +92,6 @@ public class PostController : Controller
         
         return RedirectToAction("Index", "Post");
     }
-    
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);

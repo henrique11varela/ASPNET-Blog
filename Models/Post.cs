@@ -34,7 +34,6 @@ namespace ASPNET_Blog.Models
                 command += $"title = '{this.Title}', ";
                 command += $"body = '{this.Body}', ";
                 command += $"accessibility = '{this.Accessibility}', ";
-                command += $"created_at = '{this.CreatedAt}', ";
                 command += $"updated_at = '{this.UpdatedAt}', ";
                 command += $"user_id = '{this.UserId}' ";
                 command += $"WHERE id = {this.Id}";

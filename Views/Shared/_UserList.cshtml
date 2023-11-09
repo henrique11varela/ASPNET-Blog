@@ -1,4 +1,7 @@
 ﻿@model UserPostRatingViewModel
 <div class="w-100">
-
+    @foreach (User user in Model.Users)
+    {
+        @Html.Partial("_User", user)
+    }
 </div>

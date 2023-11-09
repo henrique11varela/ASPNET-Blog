@@ -28,10 +28,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Post"
                                     asp-action="Index">Posts</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User"
-                                    asp-action="Index">Users</a>
-                            </li>
+                            @if ((bool)ViewData["IsLoggedIn"])
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Following"
+                                        asp-route-id="@(((User)ViewData["User"]).Id)">Following</a>
+                                </li>
+                            }
                         </div>
                         <div class="d-flex">
                             @if (!(bool)ViewData["IsLoggedIn"])
