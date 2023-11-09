@@ -1,0 +1,8 @@
+﻿@model Comment
+<div class="w-100 bg-light mb-3 p-3">
+        <p class="mx-3">@Model.Body</p>
+        <div class="d-flex justify-content-between mx-3">
+                <a asp-controller="User" asp-action="Show" asp-route-id="@Model.UserId">@Model.User().Name</a>
+                <p>@Model.CreatedAt</p>
+        </div>
+</div>

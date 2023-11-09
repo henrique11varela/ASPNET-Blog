@@ -7,14 +7,7 @@
 <h2>Show User </h2>
 <div class="w-100 d-flex flex-column justify-content-center align-items-center">
     <form class="w-25 bg-light p-3 mb-3">
-        @if (((User)ViewData["User"]).Id == Model.User.Id)
-        {
-            <h2>Your Profile:</h2>
-        }
-        else
-        {
-            <h2>User Info:</h2>
-        }
+        <h2>User Info:</h2>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Name</label>
             <input type="text" value="@Model.User.Name" class="w-100" disabled>
@@ -29,36 +22,42 @@
             <a asp-controller="User" asp-action="Followers" asp-route-id="@Model.User.Id">Followers
                 @Model.User.Followed().Count</a>
         </div>
-        @if (((User)ViewData["User"]).Id == Model.User.Id)
+        @if ((bool)ViewData["isLoggedIn"])
         {
-            <div class="mb-3 d-flex flex-column align-items-start">
-                <a asp-controller="User" asp-action="Edit" class="w-100 btn btn-primary">Edit</a>
-            </div>
-        }
-        else
-        {
-            if (((User)ViewData["User"]).isFollowing(Model.User.Id))
+            if (((User)ViewData["User"]).Id == Model.User.Id)
             {
-                <div>
-                    <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.User.Id"
-                       class="w-100 btn btn-secondary">UnFollow</a>
+                <div class="mb-3 d-flex flex-column align-items-start">
+                    <a asp-controller="User" asp-action="Edit" class="w-100 btn btn-primary">Edit</a>
                 </div>
             }
             else
             {
-                <div>
-                    <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.User.Id"
-                       class="w-100 btn btn-secondary">Follow</a>
-                </div>
+                if (((User)ViewData["User"]).isFollowing(Model.User.Id))
+                {
+                    <div>
+                        <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.User.Id"
+                            class="w-100 btn btn-secondary">UnFollow</a>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.User.Id"
+                            class="w-100 btn btn-secondary">Follow</a>
+                    </div>
 
+                }
             }
         }
     </form>
-    @if (((User)ViewData["User"]).Id == Model.User.Id)
+    @if ((bool)ViewData["isLoggedIn"])
     {
-    <div class="w-100 d-flex justify-content-center">
-        <a class="btn btn-primary w-25" asp-controller="Post" asp-action="Create">Create Post</a>
-    </div>
+        @if (((User)ViewData["User"]).Id == Model.User.Id)
+        {
+            <div class="w-100 d-flex justify-content-center">
+                <a class="btn btn-primary w-25" asp-controller="Post" asp-action="Create">Create Post</a>
+            </div>
+        }
     }
     <div class="w-100">
         @Html.Partial("_PostList")

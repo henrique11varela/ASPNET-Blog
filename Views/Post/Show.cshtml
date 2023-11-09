@@ -5,11 +5,11 @@
 }
 
 <h2>Show Post</h2>
-<div class="w-100 d-flex justify-content-center">
+<div class="w-100 d-flex flex-column justify-content-center align-items-center">
     <form class="w-25">
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Title</label>
-            <input type="text"  value="@Model.Post.Title" class="w-100" disabled>
+            <input type="text" value="@Model.Post.Title" class="w-100" disabled>
         </div>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Body</label>
@@ -44,11 +44,30 @@
                 }
             </select>
         </div>
-        <div>
-            @if(((User)ViewData["User"]).Id == Model.Post.UserId){
-                <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id" class="w-100 btn btn-primary">Edit</a>
-            }
-            <a class="btn" asp-controller="User" asp-action="Show" asp-route-id="@Model.Post.UserId">@Model.Post.User().Name</a>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <a class="btn btn-primary" asp-controller="User" asp-action="Show"
+                asp-route-id="@Model.Post.UserId">@Model.Post.User().Name</a>
         </div>
-        </form>
+        @Html.Partial("_Rating", Model.Post)
+        <div>
+            @if (((bool)ViewData["isLoggedIn"]))
+            {
+                if (((User)ViewData["User"]).Id == Model.Post.UserId)
+                {
+                    <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id"
+                        class="w-100 btn btn-primary">Edit</a>
+                }
+            }
+        </div>
+    </form>
+    <hr>
+    @Html.Partial("_CommentList", Model.Post)
+    <form asp-controller="Comment" asp-action="AddComment" class="w-100">
+        <input type="text" asp-for="Comment.PostId" value="@Model.Post.Id" hidden>
+        <div class="mb-3 d-flex flex-column align-items-start">
+            <label>Body</label>
+            <textarea type="text" asp-for="Comment.Body" class="w-100"></textarea>
+        </div>
+        <button class="btn btn-primary">Comment</button>
+    </form>
 </div>

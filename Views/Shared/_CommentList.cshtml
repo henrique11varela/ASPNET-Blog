@@ -1,0 +1,7 @@
+@model Post
+<div class="w-100">
+    @foreach (Comment comment in Model.Comments())
+    {
+        @Html.Partial("_Comment", comment)
+    }
+</div>

@@ -166,6 +166,7 @@ public class UserController : Controller
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
+        string isFollowing = "";
         if (userId == 0)
         {
             ViewData["IsLoggedIn"] = false;
@@ -174,20 +175,19 @@ public class UserController : Controller
         {
             ViewData["IsLoggedIn"] = true;
             ViewData["User"] = new User().Find(userId);
-        }
-        string isFollowing = "";
-        if (userId == id)
-        {
-            isFollowing = ", 1, 2";
-        }
-        else
-        {
-            List<User> following = new User().Find(userId).Following();
-            foreach (var item in following)
+            if (userId == id)
             {
-                if (item.Id == id)
+                isFollowing = ", 1, 2";
+            }
+            else
+            {
+                List<User> following = new User().Find(userId).Following();
+                foreach (var item in following)
                 {
-                    isFollowing = ", 1";
+                    if (item.Id == id)
+                    {
+                        isFollowing = ", 1";
+                    }
                 }
             }
         }

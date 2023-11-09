@@ -8,7 +8,7 @@ public class RatingController : Controller
 {
     public IActionResult Rate(int id, int rate){
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Show", "User", new { id = id });
+        if (userId == 0) return RedirectToAction("Login", "User");
 
         List<Rating> ratings = new Rating().Where($"user_id = {userId} AND post_id = {id}");
         Rating tempRating = new Rating();

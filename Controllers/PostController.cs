@@ -43,15 +43,15 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-        
+
         if (UPR.Post.Title == null || UPR.Post.Body == null || UPR.Post.Accessibility == null)
         {
             return RedirectToAction("Create", "Post");
         }
-        
+
         UPR.Post.UserId = userId;
         UPR.Post.Save();
-        
+
         return RedirectToAction("Show", "Post", new { id = UPR.Post.Id });
     }
     public IActionResult Edit(int id)
@@ -69,38 +69,48 @@ public class PostController : Controller
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-        
+
         if (UPR.Post.Title == null || UPR.Post.Body == null || UPR.Post.Accessibility == null)
         {
             return RedirectToAction("Edit", "Post", new { id = UPR.Post.Id });
         }
-        
+
         UPR.Post.UserId = userId;
         UPR.Post.Save();
-        
+
         return RedirectToAction("Show", "Post", new { id = UPR.Post.Id });
     }
     public IActionResult DeleteSubmit(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
-        
+
         Post post = new Post().Find(id);
         if (post.UserId != userId) return RedirectToAction("Index", "Post");
-        
+
         post.Delete();
-        
+
         return RedirectToAction("Index", "Post");
     }
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Login", "User");
-        ViewData["IsLoggedIn"] = true;
-        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
         UPR.Post = new Post().Find(id);
+        if (userId != 0)
+        {
+            ViewData["IsLoggedIn"] = true;
+            ViewData["User"] = new User().Find(userId);
+        }
+        else
+        {
+            ViewData["IsLoggedIn"] = false;
+            if (UPR.Post.Accessibility != 0)
+            {
+                return RedirectToAction("Login", "User");
+            }
+        }
         return View(UPR);
     }
 }

@@ -36,6 +36,7 @@ CREATE TABLE
         user_id INTEGER,
         post_id INTEGER,
         body TEXT,
+        created_at TEXT,
         PRIMARY KEY (id),
         FOREIGN KEY (user_id) REFERENCES users (id)
         FOREIGN KEY (post_id) REFERENCES posts (id)

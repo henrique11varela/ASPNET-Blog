@@ -87,5 +87,9 @@ namespace ASPNET_Blog.Models
             }
             return output;
         }
+    
+        public List<Comment> Comments(){
+            return new Comment().Where($"post_id = {this.Id}");
+        }
     }
 }
