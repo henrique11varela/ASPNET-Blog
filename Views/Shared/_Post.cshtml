@@ -10,7 +10,9 @@
     <div>
         <p class="mx-3">@Model.Body</p>
         <div>
-            <p class="mx-3">Rating (para ver)</p>
+            <div class="mx-3">
+                @Html.Partial("_Rating")
+            </div>
             @if (Model.CreatedAt == Model.UpdatedAt)
             {
                 <p class="mx-3">@Model.CreatedAt</p>

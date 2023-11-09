@@ -4,7 +4,7 @@ namespace ASPNET_Blog.Models
 {
     public class Post : ModelTemplate
     {
-        public override string _TableName {get;set;} = "posts";
+        public override string _TableName { get; set; } = "posts";
         public string Title { get; set; } = "";
         public string Body { get; set; } = "";
         public int? Accessibility { get; set; } = null;
@@ -49,7 +49,8 @@ namespace ASPNET_Blog.Models
                 this.Id = AccessDb(command)[0].Id;
             }
         }
-        public List<Post> All(){
+        public List<Post> All()
+        {
             List<Post> list = new List<Post>();
             List<dynamic> tempList = new Post().Iall();
             foreach (var item in tempList)
@@ -58,7 +59,8 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
-        public List<Post> Where(string conditions){
+        public List<Post> Where(string conditions)
+        {
             List<Post> list = new List<Post>();
             List<dynamic> tempList = new Post().Iwhere(conditions);
             foreach (var item in tempList)
@@ -67,11 +69,23 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
-        public User User(){
+        public User User()
+        {
             return new User().Find(this.UserId);
         }
-        public Rating Rating(){
-            return new Rating().Find(this.Id);
+        public double Rating()
+        {
+            List<Rating> ratings = new Rating().Where($"post_id = {this.Id}");
+            double output = 0;
+            foreach (Rating rating in ratings)
+            {
+                output += rating.Value;
+            }
+            if (ratings.Count > 0)
+            {
+                output = output / ratings.Count;
+            }
+            return output;
         }
     }
 }

@@ -25,7 +25,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Post}/{action=Index}/{id?}");
+    pattern: "{controller=Post}/{action=Index}/{id?}/{rate?}");
 
 string databaseFilePath = "./data/ASPNET_Blog.sqlite";
 DB.Prepare(databaseFilePath);

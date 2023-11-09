@@ -6,9 +6,9 @@ namespace ASPNET_Blog.Models
     {
         public override string _TableName { get; set; } = "ratings";
 
-        public int UserId { get; private set; } = 0;
-        public int PostId { get; private set; } = 0;
-        public int Value { get; private set; } = 0;
+        public int UserId { get; set; } = 0;
+        public int PostId { get; set; } = 0;
+        public int Value { get; set; } = 0;
         
 
         public override Rating Filler(SqliteDataReader reader)
@@ -27,7 +27,7 @@ namespace ASPNET_Blog.Models
             if (curr.Count > 0)
             {
                 command += $"UPDATE {_TableName} SET ";
-                command += $"rating = {this.Value}, ";
+                command += $"rating = {this.Value} ";
                 command += $"WHERE user_id = {this.UserId} AND post_id = {this.PostId}";
             }
             else

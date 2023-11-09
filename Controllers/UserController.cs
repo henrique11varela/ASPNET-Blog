@@ -229,7 +229,7 @@ public class UserController : Controller
             ((User)new User().Find(userId)).Follow(id);
         }
 
-        return RedirectToAction("Show", "User", new { id = id });
+        return Redirect(Request.Headers["Referer"].ToString());
     }
 
     public IActionResult UnFollowSubmit(int id)
@@ -240,6 +240,6 @@ public class UserController : Controller
         {
             ((User)new User().Find(userId)).UnFollow(id);
         }
-        return RedirectToAction("Show", "User", new { id = id });
+        return Redirect(Request.Headers["Referer"].ToString());
     }
 }
