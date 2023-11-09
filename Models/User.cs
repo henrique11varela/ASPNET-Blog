@@ -79,21 +79,42 @@ namespace ASPNET_Blog.Models
         {
             return new Follows().Following(this.Id);
         }
+        public bool isFollowing(int id)
+        {
+            List<Follows> follows = new Follows().Where($"user_id = {this.Id} AND following_id = {id}");
+            if (follows.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void Follow(int id)
+        {
+            Follows follow = new Follows();
+            follow.UserId = this.Id;
+            follow.FollowingId = id;
+            follow.Save();
+        }
+
+        public void UnFollow(int id)
+        {
+            List<Follows> follows = new Follows().Where($"user_id = {this.Id} AND following_id = {id}");
+            if (follows.Count > 0)
+            {
+                follows[0].DeleteWhere($"user_id = {this.Id} AND following_id = {id}");
+            }
+        }
 
         public List<Post> PostsForMe()
         {
-            List<Post> list = new List<Post>();
             string friends = "";
-            List<User> f = new Follows().Following(this.Id);
+            List<User> f = new User().Find(this.Id).Following();
             foreach (var item in f)
             {
                 friends += ", " + item.Id;
             }
-            List<dynamic> tempList = new Post().AccessDb($"SELECT * FROM {new Post()._TableName} WHERE (accessibility IN (0, 1) AND user_id IN ({this.Id + (friends.Length > 0 ? $"{friends}" : "")})) OR accessibility = 0");
-            foreach (var item in tempList)
-            {
-                list.Add((Post)item);
-            }
+            List<Post> list = new Post().Where($"(accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0");
             return list;
         }
     }

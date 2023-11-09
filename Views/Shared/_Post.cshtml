@@ -1,0 +1,14 @@
+﻿@model Post
+<div class="w-100 bg-light mb-3 p-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <a asp-controller="Post" asp-action="Show" asp-route-id="@Model.Id" class="ms-3">
+            <h1>@Model.Title</h1>
+        </a>
+        <a asp-controller="User" asp-action="Show" asp-route-id="@Model.UserId" class="m-3">@Model.User().Name</a>
+    </div>
+    <hr>
+    <div>
+        <p class="mx-3">@Model.Body</p>
+        <p class="mx-3">Rating (para ver)</p>
+    </div>
+</div>

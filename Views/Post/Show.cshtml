@@ -13,7 +13,7 @@
         </div>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Body</label>
-            <textarea type="text" value="@Model.Post.Body" class="w-100" disabled></textarea>
+            <textarea type="text" class="w-100" disabled>@Model.Post.Body</textarea>
         </div>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Accessibility</label>
@@ -44,5 +44,8 @@
                 }
             </select>
         </div>
+        @if(((User)ViewData["User"]).Id == Model.Post.UserId){
+            <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id" class="w-100 btn btn-primary">Edit</a>
+        }
     </form>
 </div>

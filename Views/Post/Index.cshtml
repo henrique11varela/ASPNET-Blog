@@ -5,7 +5,4 @@
 }
 
 <h2>All Posts (where public)</h2>
-@foreach (var post in Model.Posts)
-{
-    <p>@post.Id - @post.Title</p>
-}
+@Html.Partial("_PostList")

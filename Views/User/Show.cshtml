@@ -5,8 +5,9 @@
 }
 
 <h2>Show User </h2>
-<div class="w-100 d-flex justify-content-center">
-    <form class="w-25">
+<div class="w-100 d-flex flex-column justify-content-center align-items-center">
+    <form class="w-25 bg-light p-3 mb-3">
+        <h2>User Info:</h2>
         <div class="mb-3 d-flex flex-column align-items-start">
             <label>Name</label>
             <input type="text" value="@Model.User.Name" class="w-100" disabled>
@@ -15,5 +16,32 @@
             <label>Email</label>
             <input type="text" value="@Model.User.Email" class="w-100" disabled>
         </div>
+        @if (((User)ViewData["User"]).Id == Model.User.Id)
+        {
+            <div class="mb-3 d-flex flex-column align-items-start">
+                <a asp-controller="User" asp-action="Edit" class="w-100 btn btn-primary">Edit</a>
+            </div>
+        }
+        else
+        {
+            if (((User)ViewData["User"]).isFollowing(Model.User.Id))
+            {
+                <div>
+                    <a asp-controller="User" asp-action="UnFollow" asp-route-id="@Model.User.Id"
+                        class="w-100 btn btn-secondary">UnFollow</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a asp-controller="User" asp-action="Follow" asp-route-id="@Model.User.Id"
+                        class="w-100 btn btn-secondary">Follow</a>
+                </div>
+
+            }
+        }
     </form>
+    <div class="w-100">
+        @Html.Partial("_PostList")
+    </div>
 </div>

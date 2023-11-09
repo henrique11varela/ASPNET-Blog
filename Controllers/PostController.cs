@@ -21,6 +21,7 @@ public class PostController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
         return View(UPR);
@@ -30,6 +31,7 @@ public class PostController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
         return View(UPR);
@@ -54,6 +56,7 @@ public class PostController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
         UPR.Post = new Post().Find(id);
@@ -79,6 +82,7 @@ public class PostController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         //Code goes here
         UPR.Post = new Post().Find(id);

@@ -13,6 +13,7 @@ public class UserController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.Users = new User().All();
         return View(UPR);
@@ -23,6 +24,7 @@ public class UserController : Controller
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login");
         ViewData["IsLoggedIn"] = true;
+        ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(userId);
         return View(UPR);
@@ -30,12 +32,12 @@ public class UserController : Controller
 
     public IActionResult EditSubmit(UserPostRatingViewModel UPR)
     {
-        var userId = AuthLogic.ValidateUser(Request);
+        int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Edit", "User");
-        
-        var isValid = true;
 
-        var list = new List<User>();
+        bool isValid = true;
+
+        List<User> list = new List<User>();
         // Validate Name
         if (UPR.User.Name != null && UPR.User.Name != ((User)new User().Find(userId)).Name)
         {
@@ -43,14 +45,14 @@ public class UserController : Controller
             if (list.Count > 0)
             {
                 isValid = false;
-            } 
-        } 
+            }
+        }
         else if (UPR.User.Name == null)
         {
             isValid = false;
         }
         list = new List<User>();
-        
+
         // Validate Email
         if (UPR.User.Email != null && UPR.User.Email != ((User)new User().Find(userId)).Email)
         {
@@ -58,18 +60,18 @@ public class UserController : Controller
             if (!reg.IsMatch(UPR.User.Email))
             {
                 isValid = false;
-            } 
+            }
             list = new User().Where($"email LIKE '{UPR.User.Email}'");
             if (list.Count > 0)
             {
                 isValid = false;
-            } 
-        } 
+            }
+        }
         else if (UPR.User.Email == null)
         {
             isValid = false;
         }
-        
+
         // Validate Password
         if (isValid && UPR.User.Password != ((User)new User().Find(userId)).Password)
         {
@@ -80,12 +82,12 @@ public class UserController : Controller
         }
 
         if (!isValid) return RedirectToAction("Edit", "User");
-        
+
         UPR.User.Save();
-        
-        return RedirectToAction("Show", "User", new {id = userId});
+
+        return RedirectToAction("Show", "User", new { id = userId });
     }
-    
+
     public IActionResult Login()
     {
         int userId = AuthLogic.ValidateUser(Request);
@@ -105,7 +107,7 @@ public class UserController : Controller
         }
         return RedirectToAction("Login", "User");
     }
-    
+
     public IActionResult LogoutSubmit()
     {
         AuthLogic.ClearCookie(Response);
@@ -164,10 +166,53 @@ public class UserController : Controller
     public IActionResult Show(int id)
     {
         int userId = AuthLogic.ValidateUser(Request);
-        if (userId == 0) return RedirectToAction("Login");
-        ViewData["IsLoggedIn"] = true;
+        if (userId == 0)
+        {
+            ViewData["IsLoggedIn"] = false;
+        }
+        else
+        {
+            ViewData["IsLoggedIn"] = true;
+            ViewData["User"] = new User().Find(userId);
+        }
+        string isFollowing = "";
+        if (userId == id)
+        {
+            isFollowing = ", 1, 2";
+        }
+        else
+        {
+            List<User> following = new User().Find(userId).Following();
+            foreach (var item in following)
+            {
+                if (item.Id == id)
+                {
+                    isFollowing = ", 1";
+                }
+            }
+        }
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
+        UPR.Posts = new Post().Where($"user_id = {id} AND accessibility IN (0{(isFollowing)})");
         return View(UPR);
+    }
+
+    public IActionResult Follow(int id)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Show", "User", new { id = id });
+
+        ((User)new User().Find(userId)).Follow(id);
+
+        return RedirectToAction("Show", "User", new { id = id });
+    }
+    public IActionResult UnFollow(int id)
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Show", "User", new { id = id });
+
+        ((User)new User().Find(userId)).UnFollow(id);
+
+        return RedirectToAction("Show", "User", new { id = id });
     }
 }

@@ -73,6 +73,12 @@ public class ModelTemplate : IModelTemplate
         AccessDb(query);
     }
 
+    public void DeleteWhere(string conditions)
+    {
+        string query = $"DELETE FROM {_TableName} WHERE {conditions}";
+        AccessDb(query);
+    }
+
     /** Manages the connection to the DataBase
     * 
     */

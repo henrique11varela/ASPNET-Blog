@@ -6,7 +6,4 @@
 
 <h2>Feed</h2>
 
-@foreach (var post in Model.Posts)
-{
-    <p>@post.Title - @post.Body</p>
-}
+@Html.Partial("_PostList")
