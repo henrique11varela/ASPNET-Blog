@@ -1,26 +1,23 @@
 ﻿@model Post
-<div class="w-100 bg-light mb-3 p-3">
-    <div class="d-flex justify-content-between align-items-center">
-        <a asp-controller="Post" asp-action="Show" asp-route-id="@Model.Id" class="ms-3">
-            <h1>@Model.Title</h1>
-        </a>
-        <a asp-controller="User" asp-action="Show" asp-route-id="@Model.UserId" class="m-3">@Model.User().Name</a>
-    </div>
-    <hr>
+<div class="w-full p-6 mb-7 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a asp-controller="Post" asp-action="Show" asp-route-id="@Model.Id">
+        <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">@Model.Title</h1>
+    </a>
     <div>
-        <p class="mx-3">@Model.Body</p>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">@Model.Body</p>
         <div>
-            <div class="mx-3">
+            <div class="mb-2">
                 @Html.Partial("_Rating")
             </div>
             @if (Model.CreatedAt == Model.UpdatedAt)
             {
-                <p class="mx-3">@Model.CreatedAt</p>
+                <p class="mb-2 text-gray-900 dark:text-white">@Model.CreatedAt</p>
             }
             else
             {
-                <p class="mx-3">@Model.UpdatedAt (edited)</p>
+                <p class="mb-2 text-gray-900 dark:text-white">@Model.UpdatedAt (edited)</p>
             }
         </div>
     </div>
+    <a asp-controller="User" asp-action="Show" asp-route-id="@Model.UserId" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">@Model.User().Name</a>
 </div>
