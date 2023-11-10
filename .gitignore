@@ -78,3 +78,5 @@ _[Ss]cripts
 ######################
 *.idea
 *vs
+wwwroot/css/output.css
+node_modules

@@ -1,0 +1,25 @@
+{
+  "name": "aspnet-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "daisyui": "^3.9.4",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5"
+  },
+  "scripts": {
+    "css:build": "npm i && npx tailwind build ./wwwroot/css/site.css -o ./wwwroot/css/output.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henrique11varela/ASPNET-Blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/henrique11varela/ASPNET-Blog/issues"
+  },
+  "homepage": "https://github.com/henrique11varela/ASPNET-Blog#readme"
+}
