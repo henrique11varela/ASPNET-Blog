@@ -4,20 +4,26 @@
     Layout = "_Layout";
 }
 
-<h2>Login</h2>
-<div class="w-100 d-flex justify-content-center">
-    <form asp-action="LoginSubmit" class="w-25">
+<div
+    class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form asp-action="LoginSubmit" class="space-y-6">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">Login</h2>
         @* NAME *@
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Name:</label>
-            <input class="w-100" type="text" asp-for="User.Name" required>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="text" asp-for="User.Name" required>
         </div>
         @* PASSWORD *@
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Password:</label>
-            <input class="w-100" type="password" asp-for="User.Password" required>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="password" asp-for="User.Password" required>
         </div>
         @* SUBMIT *@
-        <button class="btn btn-primary w-100">Submit</button>
+        <button
+            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
 </div>
