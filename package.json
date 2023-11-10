@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
-    "daisyui": "^3.9.4",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5"
   },
@@ -21,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/henrique11varela/ASPNET-Blog/issues"
   },
-  "homepage": "https://github.com/henrique11varela/ASPNET-Blog#readme"
+  "homepage": "https://github.com/henrique11varela/ASPNET-Blog#readme",
+  "dependencies": {
+    "flowbite": "^2.1.1"
+  }
 }
