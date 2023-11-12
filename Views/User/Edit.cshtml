@@ -4,29 +4,43 @@
     Layout = "_Layout";
 }
 
-<h2>Edit User</h2>
-<div class="w-100 d-flex justify-content-center">
-    <form class="w-25 " asp-action="EditSubmit">
-        <input type="text" asp-for="User.Id" value="@Model.User.Id" hidden>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Name</label>
-            <input type="text" asp-for="User.Name" value="@Model.User.Name" class="w-100" required>
+<div class="w-full mt-10 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form asp-action="EditSubmit" class="space-y-6">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">Edit User</h2>
+        @* NAME *@
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="text" asp-for="User.Name" value="@Model.User.Name" required>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Email</label>
-            <input type="email" asp-for="User.Email" value="@Model.User.Email" class="w-100" required>
+        @* EMAIL *@
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="text" asp-for="User.Email" value="@Model.User.Email" required>
         </div>
+        @* PASSWORD *@
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Password</label>
-            <input type="password" asp-for="User.Password" value="@Model.User.Password" class="w-100" required>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="password" asp-for="User.Password" value="@Model.User.Password" required>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Confirm Password</label>
-            <input type="password" asp-for="PasswordConfirm" class="w-100">
-        </div>
-        <div class="d-flex">
-            <button class="btn btn-primary w-100">Submit</button>
-            <button class="btn btn-danger w-100">Delete</button>
+          @* PASSWORD CONFIRM *@
+                <div class="mb-3 d-flex flex-column align-items-start">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password:</label>
+                    <input
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        type="password" asp-for="PasswordConfirm" required>
+                </div>
+        @* SUBMIT *@
+        <div class="flex gap-2">
+            <button
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <button
+                class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Delete</button>
         </div>
     </form>
 </div>

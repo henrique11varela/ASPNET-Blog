@@ -4,19 +4,30 @@
     Layout = "_Layout";
 }
 
-<h2>Show User </h2>
-<div class="w-100 d-flex flex-column justify-content-center align-items-center">
-    <form class="w-25 bg-light p-3 mb-3">
-        <h2>User Info:</h2>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Name</label>
-            <input type="text" value="@Model.User.Name" class="w-100" disabled>
+<div class="w-full mt-10 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form class="space-y-6">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">User Info</h2>
+        @* NAME *@
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="text" value="@Model.User.Name" disabled>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Email</label>
-            <input type="text" value="@Model.User.Email" class="w-100" disabled>
+        @* EMAIL *@
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
+            <input
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                type="text" value="@Model.User.Email" disabled>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
+        <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <a asp-controller="User" asp-action="Following" asp-route-id="@Model.User.Id">Following
+                @Model.User.Following().Count</a>
+            <a asp-controller="User" asp-action="Followers" asp-route-id="@Model.User.Id">Followers
+                @Model.User.Followed().Count</a>
+        </div>
+        <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             <a asp-controller="User" asp-action="Following" asp-route-id="@Model.User.Id">Following
                 @Model.User.Following().Count</a>
             <a asp-controller="User" asp-action="Followers" asp-route-id="@Model.User.Id">Followers
@@ -26,8 +37,8 @@
         {
             if (((User)ViewData["User"]).Id == Model.User.Id)
             {
-                <div class="mb-3 d-flex flex-column align-items-start">
-                    <a asp-controller="User" asp-action="Edit" class="w-100 btn btn-primary">Edit</a>
+                <div class="flex items-center justify-center">
+                    <a class="w-20 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" asp-controller="User" asp-action="Edit">Edit</a>
                 </div>
             }
             else
@@ -36,14 +47,14 @@
                 {
                     <div>
                         <a asp-controller="User" asp-action="UnFollowSubmit" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary mb-3">UnFollow</a>
+                           class="">UnFollow</a>
                     </div>
                 }
                 else
                 {
                     <div>
                         <a asp-controller="User" asp-action="FollowSubmit" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary mb-3">Follow</a>
+                           class="">Follow</a>
                     </div>
                 }
             }
@@ -53,29 +64,32 @@
                 {
                     <div>
                         <a asp-controller="Admin" asp-action="RevokeAdmin" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary mb-3">Revoke Admin Rights</a>
+                           class="w-full ">Revoke Admin Rights</a>
                     </div>
                 }
                 else
                 {
                     <div>
                         <a asp-controller="Admin" asp-action="AddAdmin" asp-route-id="@Model.User.Id"
-                            class="w-100 btn btn-secondary mb-3">Add Admin Rights</a>
+                           class="w-full">Add Admin Rights</a>
                     </div>
                 }
             }
         }
     </form>
+</div>
+<div class="w-full">
     @if ((bool)ViewData["isLoggedIn"])
     {
         @if (((User)ViewData["User"]).Id == Model.User.Id)
         {
-            <div class="w-100 d-flex justify-content-center">
-                <a class="btn btn-primary w-25" asp-controller="Post" asp-action="Create">Create Post</a>
+            <div class="flex items-center justify-center m-10">
+                <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" asp-controller="Post" asp-action="Create">Create Post</a>
             </div>
         }
     }
-    <div class="w-100">
+    <div class="w-full">
         @Html.Partial("_PostList")
     </div>
 </div>
+        
