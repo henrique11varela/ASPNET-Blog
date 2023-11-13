@@ -1,16 +1,40 @@
 ﻿@model UserPostRatingViewModel
-<div class="w-full flex">
-    <div class="w-3/4 flex flex-col items-center">
+<div class="w-full flex justify-stretch">
+    <div class="flex flex-col items-center flex-1">
         @foreach (Post post in Model.Posts)
         {
             @Html.Partial("_Post", post)
         }
     </div>
-    <div class="w-1/4 ms-4 flex flex-col items-center">
-        LISTA DE ANOS, A IMPLEMENTAR
-        @foreach (Post post in Model.Posts)
+    <div class="max-w-min ms-4">
+        <div class="sticky flex flex-col flex-none top-10 ms-10">
+
+        <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route="">All</a>
+        @foreach (dynamic date in (List<dynamic>)ViewData["Dates"])
         {
-            @Html.Partial("_Post", post)
+            <div class="year-div">
+                <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route-year="@date.year">@date.year</a>
+                <div class="month-div ms-7 flex flex-col">
+                    @foreach (int month in (date.months))
+                    {
+                        <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route-year="@date.year"
+                            asp-route-month="@month">@(new DateTime(2000, month, 1).ToString("MMMM"))</a>
+                    }
+                </div>
+            </div>
         }
+        </div>
     </div>
+    <style>
+        .month-div {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.15s ease-out;
+        }
+
+        .year-div:hover>.month-div {
+            max-height: 500px;
+            transition: max-height 0.25s ease-in;
+        }
+    </style>
 </div>

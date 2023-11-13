@@ -7,17 +7,57 @@ namespace ASPNET_Blog.Controllers;
 
 public class PostController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(int? year, int? month)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = new Post().Where("accessibility = 0");
+        UPR.Posts = new Post().Where($"accessibility = 0");
+        UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
+
+        List<dynamic> dateList = new List<dynamic>();
+
+        foreach (int years in new Post().YearsFromList(UPR.Posts))
+        {
+            List<int> months = new Post().MonthsFromList(new Post().FromYear(years, UPR.Posts));
+            dynamic a = new
+            {
+                year = years,
+                months = months
+            };
+            dateList.Add(a);
+        }
+        ViewData["Dates"] = dateList;
+
+        if (year != null)
+        {
+            List<Post> tempPosts = new List<Post>();
+            foreach (var post in UPR.Posts)
+            {
+                if (post.UpdatedAt.Year == year)
+                {
+                    tempPosts.Add(post);
+                }
+            }
+            UPR.Posts = tempPosts;
+            if (month != null)
+            {
+                tempPosts = new List<Post>();
+                foreach (var post in UPR.Posts)
+                {
+                    if (post.UpdatedAt.Month == month)
+                    {
+                        tempPosts.Add(post);
+                    }
+                }
+                UPR.Posts = tempPosts;
+            }
+        }
         return View(UPR);
     }
-    public IActionResult Feed()
+    public IActionResult Feed(int? year, int? month)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
@@ -27,6 +67,45 @@ public class PostController : Controller
         UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
         UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
+
+        List<dynamic> dateList = new List<dynamic>();
+
+        foreach (int years in new Post().YearsFromList(UPR.Posts))
+        {
+            List<int> months = new Post().MonthsFromList(new Post().FromYear(years, UPR.Posts));
+            dynamic a = new
+            {
+                year = years,
+                months = months
+            };
+            dateList.Add(a);
+        }
+        ViewData["Dates"] = dateList;
+
+        if (year != null)
+        {
+            List<Post> tempPosts = new List<Post>();
+            foreach (var post in UPR.Posts)
+            {
+                if (post.UpdatedAt.Year == year)
+                {
+                    tempPosts.Add(post);
+                }
+            }
+            UPR.Posts = tempPosts;
+            if (month != null)
+            {
+                tempPosts = new List<Post>();
+                foreach (var post in UPR.Posts)
+                {
+                    if (post.UpdatedAt.Month == month)
+                    {
+                        tempPosts.Add(post);
+                    }
+                }
+                UPR.Posts = tempPosts;
+            }
+        }
         return View(UPR);
     }
     public IActionResult Create()

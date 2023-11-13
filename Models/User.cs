@@ -125,5 +125,17 @@ namespace ASPNET_Blog.Models
             List<Post> list = new Post().Where($"(accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0");
             return list;
         }
+
+        public override void Delete()
+        {
+            foreach (var item in this.Posts())
+            {
+                item.Delete();
+            }
+            new Follows().DeleteWhere($"user_id = {this.Id} OR following_id = {this.Id}");
+            new Rating().DeleteWhere($"user_id = {this.Id}");
+            this.AccessDb($"DELETE FROM usercookie WHERE user_id = {this.Id}");
+            this.DeleteWhere($"id = {this.Id}");
+        }
     }
 }

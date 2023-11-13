@@ -4,20 +4,21 @@
     Layout = "_Layout";
 }
 
-<h2>Show Post</h2>
-<div class="w-100 d-flex flex-column justify-content-center align-items-center">
-    <form class="w-25">
+<div
+    class="w-full max-w-4xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form class="space-y-6">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">Show Post</h2>
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Title</label>
-            <input type="text" value="@Model.Post.Title" class="w-100" disabled>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+            <input type="text" value="@Model.Post.Title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" disabled>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Body</label>
-            <textarea type="text" class="w-100" disabled>@Model.Post.Body</textarea>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
+            <textarea type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" disabled>@Model.Post.Body</textarea>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Accessibility</label>
-            <select class="w-100" disabled>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Accessibility</label>
+            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" disabled>
                 @if (Model.Post.Accessibility == 0)
                 {
                     <option selected value="0">Public</option>
@@ -44,37 +45,35 @@
                 }
             </select>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <a class="btn btn-primary" asp-controller="User" asp-action="Show"
+        <div>
+            <a class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" asp-controller="User" asp-action="Show"
                 asp-route-id="@Model.Post.UserId">@Model.Post.User().Name</a>
         </div>
         @Html.Partial("_Rating", Model.Post)
-        <div>
+        <div class="flex gap-2">
             @if (((bool)ViewData["isLoggedIn"]))
             {
                 if (((User)ViewData["User"]).Id == Model.Post.UserId)
                 {
                     <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Post.Id"
-                        class="w-100 btn btn-primary mb-3">Edit</a>
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</a>
                 }
                 if (((User)ViewData["User"]).Role == "admin")
                 {
-                    <div class="d-flex">
                         <a asp-controller="Post" asp-action="DeleteSubmit" asp-route-id="@Model.Post.Id"
-                            class="btn btn-danger w-100">Delete</a>
-                    </div>
+                            class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Delete</a>
                 }
             }
         </div>
     </form>
-    <hr>
+    <hr class="m-3">
     @Html.Partial("_CommentList", Model.Post)
-    <form asp-controller="Comment" asp-action="AddComment" class="w-100">
+    <form asp-controller="Comment" asp-action="AddComment" class="w-full">
         <input type="text" asp-for="Comment.PostId" value="@Model.Post.Id" hidden>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Body</label>
-            <textarea type="text" asp-for="Comment.Body" class="w-100"></textarea>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Comment</label>
+            <textarea type="text" asp-for="Comment.Body" class="bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"></textarea>
         </div>
-        <button class="btn btn-primary">Comment</button>
+        <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Comment</button>
     </form>
 </div>

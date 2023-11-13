@@ -67,7 +67,7 @@ public class ModelTemplate : IModelTemplate
     /** Deletes the item that has the Id "id"
     * 
     */
-    public void Delete()
+    public virtual void Delete()
     {
         string query = $"DELETE FROM {_TableName} WHERE id = {this.Id}";
         AccessDb(query);
