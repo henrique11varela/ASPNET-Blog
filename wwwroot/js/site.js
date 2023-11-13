@@ -27,3 +27,8 @@ if (localStorage.getItem("theme") != "dark") {
     themeToggleDarkIcon.classList.add('hidden');
     themeToggleLightIcon.classList.remove('hidden');
 }
+
+function auto_grow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight) + "px";
+}
