@@ -26,7 +26,7 @@ namespace ASPNET_Blog.Models
         {
             if (this.Id == 0)
             {
-                string command = $"INSERT INTO {_TableName} (user_id, post_id, body, created_at) VALUES ({this.UserId}, {this.PostId}, '{this.Body}', '{this.CreatedAt}');";
+                string command = $"INSERT INTO {_TableName} (user_id, post_id, body, created_at) VALUES ({this.UserId}, {this.PostId}, '{this.Body}', '{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}');";
                 AccessDb(command);
                 command = $"SELECT * FROM {_TableName} ORDER BY id DESC LIMIT 1;";
                 this.Id = AccessDb(command)[0].Id;
