@@ -34,13 +34,13 @@ namespace ASPNET_Blog.Models
                 command += $"title = '{this.Title}', ";
                 command += $"body = '{this.Body}', ";
                 command += $"accessibility = '{this.Accessibility}', ";
-                command += $"updated_at = '{this.UpdatedAt}', ";
+                command += $"updated_at = '{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}', ";
                 command += $"user_id = '{this.UserId}' ";
                 command += $"WHERE id = {this.Id}";
             }
             else
             {
-                command += $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, user_id) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{this.CreatedAt}','{this.UpdatedAt}','{this.UserId}');";
+                command += $"INSERT INTO {_TableName} (title, body, accessibility, created_at, updated_at, user_id) VALUES ('{this.Title}','{this.Body}','{this.Accessibility}','{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}','{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}','{this.UserId}');";
             }
             AccessDb(command);
             if (command[0].ToString().ToLower() == "i")

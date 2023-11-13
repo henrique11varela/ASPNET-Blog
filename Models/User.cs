@@ -36,12 +36,12 @@ namespace ASPNET_Blog.Models
                 command += $"email = '{this.Email}', ";
                 command += $"password = '{this.Password}', ";
                 command += $"role = '{this.Role}', ";
-                command += $"updated_at = '{DateTime.Now}' ";
+                command += $"updated_at = '{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}' ";
                 command += $"WHERE id = {this.Id}";
             }
             else
             {
-                command += $"INSERT INTO {_TableName} (username, email, password, role, created_at, updated_at) VALUES ('{this.Name}','{this.Email}','{this.Password}','member', '{DateTime.Now}', '{DateTime.Now}');";
+                command += $"INSERT INTO {_TableName} (username, email, password, role, created_at, updated_at) VALUES ('{this.Name}','{this.Email}','{this.Password}','member', '{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}', '{DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")}');";
             }
             AccessDb(command);
             if (command[0].ToString().ToLower() == "i")
