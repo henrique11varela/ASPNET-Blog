@@ -163,7 +163,7 @@ public class UserController : Controller
         return RedirectToAction("Feed", "Post");
     }
 
-    public IActionResult Show(int id, int? year, int? month)
+    public IActionResult Show(int id, int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         string isFollowing = "";
@@ -193,7 +193,11 @@ public class UserController : Controller
         }
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
-        UPR.Posts = new Post().Where($"user_id = {id} AND accessibility IN (0{(isFollowing)})");
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = new Post().Where($"(user_id = {id} AND accessibility IN (0{(isFollowing)})){search}");
         UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
 

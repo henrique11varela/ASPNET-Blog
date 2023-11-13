@@ -1,40 +1,52 @@
 ﻿@model UserPostRatingViewModel
-<div class="w-full flex justify-stretch">
-    <div class="flex flex-col items-center flex-1">
-        @foreach (Post post in Model.Posts)
-        {
-            @Html.Partial("_Post", post)
-        }
-    </div>
-    <div class="max-w-min ms-4">
-        <div class="sticky flex flex-col flex-none top-10 ms-10">
-
-        <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route="">All</a>
-        @foreach (dynamic date in (List<dynamic>)ViewData["Dates"])
-        {
-            <div class="year-div">
-                <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route-year="@date.year">@date.year</a>
-                <div class="month-div ms-7 flex flex-col">
-                    @foreach (int month in (date.months))
-                    {
-                        <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route-year="@date.year"
-                            asp-route-month="@month">@(new DateTime(2000, month, 1).ToString("MMMM"))</a>
-                    }
-                </div>
-            </div>
-        }
+<div class="w-full">
+    <form asp-controller="Post" asp-action="Search" class=" w-1/2 flex gap-2 mb-6">
+        <input type="text" name="search" placeholder="Search"
+            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+        <button
+            class="w-1/4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </form>
+    <div class="w-full flex justify-stretch">
+        <div class="flex flex-col items-center flex-1">
+            @foreach (Post post in Model.Posts)
+            {
+                @Html.Partial("_Post", post)
+            }
+            @if(Model.Posts.Count == 0) {
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">No posts found...</p>
+            }
         </div>
-    </div>
-    <style>
-        .month-div {
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.15s ease-out;
-        }
+        <div class="max-w-min ms-4">
+            <div class="sticky flex flex-col flex-none top-10 ms-10">
 
-        .year-div:hover>.month-div {
-            max-height: 500px;
-            transition: max-height 0.25s ease-in;
-        }
-    </style>
+                <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route="">All</a>
+                @foreach (dynamic date in (List<dynamic>)ViewData["Dates"])
+                {
+                    <div class="year-div">
+                        <a class="mb-3 font-normal text-gray-700 dark:text-gray-400"
+                            asp-route-year="@date.year">@date.year</a>
+                        <div class="month-div ms-7 flex flex-col">
+                            @foreach (int month in (date.months))
+                            {
+                                <a class="mb-3 font-normal text-gray-700 dark:text-gray-400" asp-route-year="@date.year"
+                                    asp-route-month="@month">@(new DateTime(2000, month, 1).ToString("MMMM"))</a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <style>
+            .month-div {
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.15s ease-out;
+            }
+
+            .year-div:hover>.month-div {
+                max-height: 500px;
+                transition: max-height 0.25s ease-in;
+            }
+        </style>
+    </div>
 </div>

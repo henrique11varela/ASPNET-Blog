@@ -114,7 +114,7 @@ namespace ASPNET_Blog.Models
             }
         }
 
-        public List<Post> PostsForMe()
+        public List<Post> PostsForMe(string search)
         {
             string friends = "";
             List<User> f = new User().Find(this.Id).Following();
@@ -122,7 +122,7 @@ namespace ASPNET_Blog.Models
             {
                 friends += ", " + item.Id;
             }
-            List<Post> list = new Post().Where($"(accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0");
+            List<Post> list = new Post().Where($"((accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0){search}");
             return list;
         }
 

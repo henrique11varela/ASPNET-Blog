@@ -7,13 +7,17 @@ namespace ASPNET_Blog.Controllers;
 
 public class PostController : Controller
 {
-    public IActionResult Index(int? year, int? month)
+    public IActionResult Index(int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = new Post().Where($"accessibility = 0");
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = new Post().Where($"accessibility = 0{search}");
         UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
 
@@ -57,14 +61,18 @@ public class PostController : Controller
         }
         return View(UPR);
     }
-    public IActionResult Feed(int? year, int? month)
+    public IActionResult Feed(int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
         ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = ((User)new User().Find(userId)).PostsForMe(search);
         UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
 
@@ -204,5 +212,11 @@ public class PostController : Controller
             }
         }
         return View(UPR);
+    }
+
+    public IActionResult Search(string search){
+        string url = Request.Headers["Referer"].ToString();
+        List<string> list = url.Split("?").ToList();
+        return Redirect(list[0] + $"?search={search}");
     }
 }
