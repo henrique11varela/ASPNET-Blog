@@ -59,5 +59,10 @@ namespace ASPNET_Blog.Models
             }
             return list;
         }
+
+        public override void Delete()
+        {
+            this.DeleteWhere($"user_id = {this.UserId} OR following_id = {this.FollowingId}");
+        }
     }
 }

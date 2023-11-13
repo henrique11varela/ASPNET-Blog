@@ -7,26 +7,113 @@ namespace ASPNET_Blog.Controllers;
 
 public class PostController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId != 0) return RedirectToAction("Feed");
         ViewData["IsLoggedIn"] = false;
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = new Post().Where("accessibility = 0");
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = new Post().Where($"accessibility = 0{search}");
+        UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
+
+        List<dynamic> dateList = new List<dynamic>();
+
+        foreach (int years in new Post().YearsFromList(UPR.Posts))
+        {
+            List<int> months = new Post().MonthsFromList(new Post().FromYear(years, UPR.Posts));
+            dynamic a = new
+            {
+                year = years,
+                months = months
+            };
+            dateList.Add(a);
+        }
+        ViewData["Dates"] = dateList;
+
+        if (year != null)
+        {
+            List<Post> tempPosts = new List<Post>();
+            foreach (var post in UPR.Posts)
+            {
+                if (post.UpdatedAt.Year == year)
+                {
+                    tempPosts.Add(post);
+                }
+            }
+            UPR.Posts = tempPosts;
+            if (month != null)
+            {
+                tempPosts = new List<Post>();
+                foreach (var post in UPR.Posts)
+                {
+                    if (post.UpdatedAt.Month == month)
+                    {
+                        tempPosts.Add(post);
+                    }
+                }
+                UPR.Posts = tempPosts;
+            }
+        }
         return View(UPR);
     }
-    public IActionResult Feed()
+    public IActionResult Feed(int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         if (userId == 0) return RedirectToAction("Login", "User");
         ViewData["IsLoggedIn"] = true;
         ViewData["User"] = new User().Find(userId);
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
-        UPR.Posts = ((User)new User().Find(userId)).PostsForMe();
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = ((User)new User().Find(userId)).PostsForMe(search);
         UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
+
+        List<dynamic> dateList = new List<dynamic>();
+
+        foreach (int years in new Post().YearsFromList(UPR.Posts))
+        {
+            List<int> months = new Post().MonthsFromList(new Post().FromYear(years, UPR.Posts));
+            dynamic a = new
+            {
+                year = years,
+                months = months
+            };
+            dateList.Add(a);
+        }
+        ViewData["Dates"] = dateList;
+
+        if (year != null)
+        {
+            List<Post> tempPosts = new List<Post>();
+            foreach (var post in UPR.Posts)
+            {
+                if (post.UpdatedAt.Year == year)
+                {
+                    tempPosts.Add(post);
+                }
+            }
+            UPR.Posts = tempPosts;
+            if (month != null)
+            {
+                tempPosts = new List<Post>();
+                foreach (var post in UPR.Posts)
+                {
+                    if (post.UpdatedAt.Month == month)
+                    {
+                        tempPosts.Add(post);
+                    }
+                }
+                UPR.Posts = tempPosts;
+            }
+        }
         return View(UPR);
     }
     public IActionResult Create()
@@ -125,5 +212,11 @@ public class PostController : Controller
             }
         }
         return View(UPR);
+    }
+
+    public IActionResult Search(string search){
+        string url = Request.Headers["Referer"].ToString();
+        List<string> list = url.Split("?").ToList();
+        return Redirect(list[0] + $"?search={search}");
     }
 }

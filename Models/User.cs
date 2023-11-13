@@ -114,7 +114,7 @@ namespace ASPNET_Blog.Models
             }
         }
 
-        public List<Post> PostsForMe()
+        public List<Post> PostsForMe(string search)
         {
             string friends = "";
             List<User> f = new User().Find(this.Id).Following();
@@ -122,8 +122,20 @@ namespace ASPNET_Blog.Models
             {
                 friends += ", " + item.Id;
             }
-            List<Post> list = new Post().Where($"(accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0");
+            List<Post> list = new Post().Where($"((accessibility = 1 AND user_id IN ({this.Id + friends})) OR accessibility = 0){search}");
             return list;
+        }
+
+        public override void Delete()
+        {
+            foreach (var item in this.Posts())
+            {
+                item.Delete();
+            }
+            new Follows().DeleteWhere($"user_id = {this.Id} OR following_id = {this.Id}");
+            new Rating().DeleteWhere($"user_id = {this.Id}");
+            this.AccessDb($"DELETE FROM usercookie WHERE user_id = {this.Id}");
+            this.DeleteWhere($"id = {this.Id}");
         }
     }
 }

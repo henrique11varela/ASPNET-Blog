@@ -4,22 +4,22 @@
     Layout = "_Layout";
 }
 
-<h2>Edit Post</h2>
-<div class="w-100 d-flex justify-content-center">
-    <form class="w-25" asp-action="EditSubmit">
+<div class="w-full max-w-4xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form class="space-y-6" asp-action="EditSubmit">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">Edit Post</h2>
         <input type="text" asp-for="Post.Id" value="@Model.Post.Id" hidden>
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Title</label>
-            <input type="text" asp-for="Post.Title" value="@Model.Post.Title" class="w-100" required>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+            <input type="text" asp-for="Post.Title" value="@Model.Post.Title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
         </div>
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Body</label>
-            <textarea type="text" asp-for="Post.Body" value="@Model.Post.Body" class="w-100" required></textarea>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
+            <textarea type="text" asp-for="Post.Body" value="@Model.Post.Body" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
         </div>
         <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Accessibility</label>
-            <select asp-for="Post.Accessibility" class="w-100" required>
-                @if(Model.Post.Accessibility == 0)
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Accessibility</label>
+            <select asp-for="Post.Accessibility" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                @if (Model.Post.Accessibility == 0)
                 {
                     <option selected value="0">Public</option>
                 }
@@ -27,7 +27,7 @@
                 {
                     <option value="0">Public</option>
                 }
-                @if(Model.Post.Accessibility == 1)
+                @if (Model.Post.Accessibility == 1)
                 {
                     <option selected value="1">Followers Only</option>
                 }
@@ -35,7 +35,7 @@
                 {
                     <option value="1">Followers Only</option>
                 }
-                @if(Model.Post.Accessibility == 2)
+                @if (Model.Post.Accessibility == 2)
                 {
                     <option selected value="2">Private</option>
                 }
@@ -45,9 +45,10 @@
                 }
             </select>
         </div>
-        <div class="d-flex">
-            <button class="btn btn-primary w-100">Submit</button>
-            <button asp-controller="Post" asp-action="DeleteSubmit" asp-route-id="@Model.Post.Id" class="btn btn-danger w-100">Delete</button>
+        <div class="flex gap-2">
+            <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <a asp-controller="Post" asp-action="DeleteSubmit" asp-route-id="@Model.Post.Id"
+                class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Delete</a>
         </div>
     </form>
 </div>

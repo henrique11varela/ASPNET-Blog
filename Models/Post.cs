@@ -91,9 +91,70 @@ namespace ASPNET_Blog.Models
         {
             return new Rating().Where($"post_id = {this.Id}");
         }
-    
-        public List<Comment> Comments(){
+
+        public List<Comment> Comments()
+        {
             return new Comment().Where($"post_id = {this.Id}");
+        }
+
+        public override void Delete()
+        {
+            foreach (var comment in this.Comments())
+            {
+                comment.Delete();
+            }
+            foreach (var rating in this.Ratings())
+            {
+                rating.Delete();
+            }
+            this.DeleteWhere($"id = {this.Id}");
+        }
+    
+        public List<Post> FromYear(int year, List<Post> list){
+            List<Post> tempList = new List<Post>();
+            foreach (var item in list)
+            {
+                if (item.UpdatedAt.Year == year)
+                {
+                    tempList.Add(item);
+                }
+            }
+            return tempList;
+        }
+        
+        public List<Post> FromMonth(int month, List<Post> list){
+            List<Post> tempList = new List<Post>();
+            foreach (var item in list)
+            {
+                if (item.UpdatedAt.Month == month)
+                {
+                    tempList.Add(item);
+                }
+            }
+            return tempList;
+        }
+    
+        public List<int> YearsFromList(List<Post> list){
+            List<int> tempList = new List<int>();
+            foreach (var item in list)
+            {
+                if (!tempList.Contains(item.UpdatedAt.Year))
+                {
+                    tempList.Add(item.UpdatedAt.Year);
+                }
+            }
+            return tempList;
+        }
+        public List<int> MonthsFromList(List<Post> list){
+            List<int> tempList = new List<int>();
+            foreach (var item in list)
+            {
+                if (!tempList.Contains(item.UpdatedAt.Month))
+                {
+                    tempList.Add(item.UpdatedAt.Month);
+                }
+            }
+            return tempList;
         }
     }
 }

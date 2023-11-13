@@ -163,7 +163,7 @@ public class UserController : Controller
         return RedirectToAction("Feed", "Post");
     }
 
-    public IActionResult Show(int id)
+    public IActionResult Show(int id, int? year, int? month, string search)
     {
         int userId = AuthLogic.ValidateUser(Request);
         string isFollowing = "";
@@ -193,8 +193,52 @@ public class UserController : Controller
         }
         UserPostRatingViewModel UPR = new UserPostRatingViewModel();
         UPR.User = new User().Find(id);
-        UPR.Posts = new Post().Where($"user_id = {id} AND accessibility IN (0{(isFollowing)})");
+        if (!String.IsNullOrEmpty(search))
+        {
+            search = $" AND (title LIKE '%{search}%' OR body LIKE '%{search}%')";
+        }
+        UPR.Posts = new Post().Where($"(user_id = {id} AND accessibility IN (0{(isFollowing)})){search}");
+        UPR.Posts = UPR.Posts.OrderBy(x => x.UpdatedAt).ToList();
         UPR.Posts.Reverse();
+
+        List<dynamic> dateList = new List<dynamic>();
+
+        foreach (int years in new Post().YearsFromList(UPR.Posts))
+        {
+            List<int> months = new Post().MonthsFromList(new Post().FromYear(years, UPR.Posts));
+            dynamic a = new
+            {
+                year = years,
+                months = months
+            };
+            dateList.Add(a);
+        }
+        ViewData["Dates"] = dateList;
+
+        if (year != null)
+        {
+            List<Post> tempPosts = new List<Post>();
+            foreach (var post in UPR.Posts)
+            {
+                if (post.UpdatedAt.Year == year)
+                {
+                    tempPosts.Add(post);
+                }
+            }
+            UPR.Posts = tempPosts;
+            if (month != null)
+            {
+                tempPosts = new List<Post>();
+                foreach (var post in UPR.Posts)
+                {
+                    if (post.UpdatedAt.Month == month)
+                    {
+                        tempPosts.Add(post);
+                    }
+                }
+                UPR.Posts = tempPosts;
+            }
+        }
         return View(UPR);
     }
 
@@ -241,5 +285,15 @@ public class UserController : Controller
             ((User)new User().Find(userId)).UnFollow(id);
         }
         return Redirect(Request.Headers["Referer"].ToString());
+    }
+
+    public IActionResult DeleteSubmit()
+    {
+        int userId = AuthLogic.ValidateUser(Request);
+        if (userId == 0) return RedirectToAction("Login", "User");
+        User user = new User().Find(userId);
+        user.Delete();
+        AuthLogic.ClearCookie(Response);
+        return RedirectToAction("Index", "Post");
     }
 }

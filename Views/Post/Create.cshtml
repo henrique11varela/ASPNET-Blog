@@ -4,26 +4,25 @@
     Layout = "_Layout";
 }
 
-<h2>Create Post</h2>
-<div class="w-100 d-flex justify-content-center">
-    <form class="w-25" asp-action="CreateSubmit">
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Title</label>
-            <input type="text" asp-for="Post.Title" class="w-100" required>
+<div class="w-full max-w-4xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <form class="space-y-6" asp-action="CreateSubmit">
+        <h2 class="text-xl font-medium text-gray-900 dark:text-white">Create Post</h2>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+            <input type="text" asp-for="Post.Title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Body</label>
-            <textarea type="text" asp-for="Post.Body" class="w-100" required></textarea>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
+            <textarea type="text" asp-for="Post.Body" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required></textarea>
         </div>
-        <div class="mb-3 d-flex flex-column align-items-start">
-            <label>Accessibility</label>
-            <select asp-for="Post.Accessibility" class="w-100" required>
-                <option disabled selected>Select</option>
-                <option value="0">Public</option>
+        <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Accessibility</label>
+            <select asp-for="Post.Accessibility" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                <option value="0" selected>Public</option>
                 <option value="1">Followers Only</option>
                 <option value="2">Private</option>
             </select>
         </div>
-        <button class="btn btn-primary w-100">Submit</button>
+        <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
 </div>
