@@ -7,6 +7,8 @@
 <div
     class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
     <form asp-action="EditSubmit" class="space-y-6">
+        <input
+            type="text" asp-for="User.Id" value="@Model.User.Id" required hidden>
         <h2 class="text-xl font-medium text-gray-900 dark:text-white">Edit User</h2>
         @* NAME *@
         <div>
